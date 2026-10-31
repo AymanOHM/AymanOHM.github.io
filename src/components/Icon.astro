@@ -1,0 +1,13 @@
+---
+// Hand-drawn strokes. The hand font lacks these glyphs, so they are SVG.
+interface Props { name: 'arrow' | 'arrow-left' | 'arrow-up' | 'check'; width?: number; height?: number; class?: string; style?: string }
+const { name, width, height, class: cls, style } = Astro.props;
+const defs = {
+  'arrow': { vb: '0 0 34 16', w: 30, h: 14, d: 'M2 9 C 10 7, 20 9, 30 8 M23 2 C 26 4, 29 6, 31 8 C 28 10, 25 12, 22 14', sw: 1.8 },
+  'arrow-left': { vb: '0 0 34 16', w: 30, h: 14, d: 'M32 9 C 24 7, 14 9, 4 8 M11 2 C 8 4, 5 6, 3 8 C 6 10, 9 12, 12 14', sw: 1.8 },
+  'arrow-up': { vb: '0 0 20 34', w: 20, h: 34, d: 'M10 32 C 9 22, 11 12, 10 3 M3 10 C 6 7, 8 5, 10 3 C 12 5, 14 8, 17 10', sw: 1.8 },
+  'check': { vb: '0 0 34 30', w: 24, h: 21, d: 'M4 16 C 7 19, 10 23, 12 27 C 17 17, 24 8, 32 2', sw: 2.2 },
+} as const;
+const d = defs[name];
+---
+<svg aria-hidden="true" focusable="false" class={cls} style={style} width={width ?? d.w} height={height ?? d.h} viewBox={d.vb} fill="none" stroke="currentColor" stroke-width={d.sw} stroke-linecap="round" stroke-linejoin="round"><path d={d.d} /></svg>

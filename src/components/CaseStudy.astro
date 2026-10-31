@@ -1,0 +1,60 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import Notebook from '../layouts/Notebook.astro';
+import SubHero from './SubHero.astro';
+import Shot from './Shot.astro';
+import NextNav from './NextNav.astro';
+import { siteTabs, type CasePage } from '../data/pages';
+interface Props { page: CasePage }
+const { page: p } = Astro.props;
+// Only ship image slots whose file exists; a missing asset drops its slot instead of showing a placeholder.
+const assets = p.assets.filter((a) => fs.existsSync(path.join(process.cwd(), 'public', a.src)));
+---
+<Notebook title={p.docTitle} description={p.description} memo={p.memo} tabs={siteTabs(p.activeTab)} tabsLabel="Site">
+  <main id="content" class="sub-main">
+    <SubHero {...p} />
+
+    {p.facts.length > 0 && (
+      <dl class="facts">
+        {p.facts.map((f) => (
+          <div><dt class="label">{f.label}</dt><dd>{f.href ? <a href={f.href}>{f.value}</a> : f.value}</dd></div>
+        ))}
+      </dl>
+    )}
+    {p.stack && <div class="meta">{p.stack}</div>}
+
+    {p.stats.length > 0 && (
+      <div class="stats">
+        {p.stats.map((s) => <div><div class="stats__big">{s.big}</div><div class="stats__label">{s.label}</div></div>)}
+      </div>
+    )}
+
+    {p.sections.map((s, i) => (
+      <section class="cols sec" aria-labelledby={`h-${i}`}>
+        <h2 class="h2" id={`h-${i}`}>{s.h}</h2>
+        <div style="min-width:0">
+          {(s.paras ?? []).map((t) => <p>{t}</p>)}
+          {s.list && s.list.length > 0 && (
+            <ul class="dash-list">{s.list.map((li) => <li><span aria-hidden="true">-</span><span>{li}</span></li>)}</ul>
+          )}
+          {s.chips && s.chips.length > 0 && (
+            <div class="chips" style="margin-bottom:36px">{s.chips.map((c) => <span class="chip">{c}</span>)}</div>
+          )}
+        </div>
+        <div class="note">{s.note}</div>
+      </section>
+    ))}
+
+    {assets.length > 0 && (
+      <section class="shots" aria-label="Images">
+        {assets.map((a) => <Shot asset={a} />)}
+      </section>
+    )}
+
+    <slot />
+
+    {p.next && <NextNav {...p.next} />}
+  </main>
+  <footer class="nb-footer">Memo No. {p.memo} · {p.footer} · <a href="mailto:ayman_osama@outlook.com">ayman_osama@outlook.com</a></footer>
+</Notebook>

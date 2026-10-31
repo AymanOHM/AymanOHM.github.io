@@ -1,0 +1,18 @@
+---
+// Ayman's notebook-cover stickers, cut out from his photo. Decorative.
+interface Props { height: number; class?: string }
+const { height, class: cls } = Astro.props;
+const items = [
+  { n: 'fez', w: 78, left: '6%', top: 18, rot: -6 },
+  { n: 'cactus', w: 92, left: '30%', top: 40, rot: 7 },
+  { n: 'emoji', w: 58, left: '55%', top: 10, rot: 0 },
+  { n: 'peace', w: 120, left: '64%', top: 70, rot: -4 },
+  { n: 'dog', w: 60, left: '44%', top: height - 82, rot: 10 },
+];
+---
+<div class:list={['stickers', cls]} style={`height:${height}px`} role="img" aria-label="Stickers from my notebook cover: a fez that says Basha, a cactus, an emoji with a moustache, a balloon dog and a peace sign">
+  {items.map((s) => (
+    <img src={`/img/stickers/sticker-${s.n}.png`} alt="" width={s.w} loading="lazy" decoding="async"
+      style={`left:${s.left};top:${s.top}px;width:${s.w}px;transform:rotate(${s.rot}deg)`} />
+  ))}
+</div>

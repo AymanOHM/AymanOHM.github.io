@@ -1,0 +1,158 @@
+---
+import Notebook from '../../layouts/Notebook.astro';
+import SubHero from '../../components/SubHero.astro';
+import Shot from '../../components/Shot.astro';
+import NextNav from '../../components/NextNav.astro';
+import { siteTabs } from '../../data/pages';
+
+const steps = [
+  'The client sends a generation request. The API saves it to PostgreSQL with status PENDING and returns 202 Accepted right away.',
+  'The task goes onto a Redis queue.',
+  'A Celery worker picks it up, sets PROCESSING, and calls the AI service.',
+  'The worker saves the generated questions and sets the final status.',
+  'The client polls the request until it is done, then fetches the questions.',
+];
+const failures = [
+  { title: 'Retries', code: '3 attempts · 30 s apart', text: 'Short outages are absorbed instead of failing the whole request.' },
+  { title: 'Batching', code: '≤ 10 questions per AI call', text: 'Each call stays bounded, so a failure loses less work.' },
+  { title: 'Partial success', code: 'COMPLETED_WITH_ERRORS', text: 'Some question types can fail while others succeed. The request still finishes, and the stored error log says what failed.' },
+];
+const containers = ['Gunicorn web', 'Celery worker', 'PostgreSQL 15', 'Redis 7'];
+const ARROW = 'M2 8 H 40 M33 3 L 40 8 L 33 13';
+---
+<Notebook title="Soual: AI question generator, case study · Ayman Osama Hassan" description="How a slow AI model sits behind a fast API: a Django REST, Redis and Celery job pipeline with retries, batching and partial success, deployed on Railway." memo="05" tabs={siteTabs('Work')} tabsLabel="Site">
+  <main id="content" class="sub-main">
+    <SubHero backHref="/#work" backLabel="All work" kicker="CASE STUDY 01 · GRADUATION PROJECT · 2026" title="Soual"
+      subtitle="An AI question generator, and the pipeline that keeps it fast."
+      lede="Soual writes exam-prep questions (multiple choice, true/false and short answer) for Egyptian secondary-school students, in the style of the new Thanaweya Amma exam. My job was the part that lets a slow AI model sit behind a fast API."
+      heroNote="soual means question, in Arabic" notePad={72} />
+
+    <dl class="facts">
+      <div><dt class="label">My role</dt><dd>Job pipeline, Docker setup, Railway deployment</dd></div>
+      <div><dt class="label">Team</dt><dd>6 people: 2 backend, 2 AI, 1 data preprocessing, 1 frontend</dd></div>
+      <div><dt class="label">Result</dt><dd>Graded Excellent, full marks</dd></div>
+      <div><dt class="label">Code</dt><dd><a href="https://github.com/AI-Question-Generator/grad-project-backend">Backend repo on GitHub</a></dd></div>
+    </dl>
+    <div class="meta">Django REST Framework · Celery · Redis · PostgreSQL · Docker Compose · Railway</div>
+
+    <section class="cols sec" aria-labelledby="h-problem">
+      <div style="min-width:0">
+        <h2 id="h-problem" class="h2">The problem</h2>
+        <p class="body--text" style="margin:0">The questions come from an AI model that the AI team hosted on Kaggle, and that model was slow. If the API waited for it inside the request, every user would sit on an open request for the whole model run, and one slow call could tie up the web server.</p>
+      </div>
+      <div class="note problem-note">the model is slow.<br />the API does not have to be.</div>
+    </section>
+
+    <section class="sec" aria-labelledby="h-built">
+      <h2 id="h-built" class="h2">What I built</h2>
+      <p class="body--text" style="margin:0;max-width:760px">A job pipeline that moves the AI call out of the request:</p>
+      <ol class="steps">
+        {steps.map((s, i) => <li><span class="steps__n" aria-hidden="true">{i + 1}</span><span><span class="vh">{i + 1}. </span>{s}</span></li>)}
+      </ol>
+
+      <figure class="diagram insert insert--graph" aria-label="Architecture diagram of the Soual job pipeline">
+        <span class="tape" aria-hidden="true" style="top:-12px;left:40px;width:96px;transform:rotate(-5deg)"></span>
+        <span class="tape" aria-hidden="true" style="top:-10px;right:48px;width:88px;transform:rotate(4deg)"></span>
+        <div class="diagram__scroll" tabindex="0" role="group" aria-label="Pipeline diagram, scrolls sideways on small screens">
+          <div class="diagram__grid">
+            <div class="node" style="grid-column:1">Client</div>
+            <svg aria-hidden="true" viewBox="0 0 44 16" class="arr" style="grid-column:2" stroke="#5B574E" stroke-width="1.6"><path d={ARROW} /></svg>
+            <div class="node" style="grid-column:3">Django API<br /><span class="node__sub">returns 202</span></div>
+            <svg aria-hidden="true" viewBox="0 0 44 16" class="arr arr--ink" style="grid-column:4" stroke-width="1.8"><path d={ARROW} /></svg>
+            <div class="node node--mine" style="grid-column:5">Redis queue</div>
+            <svg aria-hidden="true" viewBox="0 0 44 16" class="arr arr--ink" style="grid-column:6" stroke-width="1.8"><path d={ARROW} /></svg>
+            <div class="node node--mine" style="grid-column:7">Celery worker<br /><span style="font-size:12px">retries · batches</span></div>
+            <svg aria-hidden="true" viewBox="0 0 44 16" class="arr" style="grid-column:8" stroke="#5B574E" stroke-width="1.6"><path d="M2 5 H 40 M33 1 L 40 5 M2 11 H 40 M9 15 L 2 11" /></svg>
+            <div class="node node--ext" style="grid-column:9">AI service<br /><span class="node__sub">Kaggle</span></div>
+
+            <div class="vline" style="grid-column:3"><span></span></div>
+            <div class="vline vline--ink" style="grid-column:7"><span></span></div>
+            <div class="node node--db" style="grid-column:3 / 8">PostgreSQL · request status: PENDING → PROCESSING → COMPLETED / COMPLETED_WITH_ERRORS</div>
+            <div class="diagram__note" style="grid-column:1 / 4">client polls the status, then fetches the questions</div>
+          </div>
+        </div>
+        <figcaption class="diagram__cap">Fig. 1. Ringed in ink: the parts I built. The API never waits on the AI; it records the request, queues it and answers 202 straight away.</figcaption>
+      </figure>
+    </section>
+
+    <section class="sec" aria-labelledby="h-fail">
+      <h2 id="h-fail" class="h2">Handling failure</h2>
+      <p class="body--text" style="margin:0 0 36px;max-width:760px">The AI service could fail partway through, so I made the worker tolerate that.</p>
+      <div class="three">
+        {failures.map((f) => (
+          <div style="min-width:0">
+            <h3 class="fail__title">{f.title}</h3>
+            <div class="meta">{f.code}</div>
+            <p class="fail__text">{f.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="h-deploy">
+      <h2 id="h-deploy" class="h2">Deployment</h2>
+      <div class="two">
+        <div style="min-width:0">
+          <h3 class="label h-label">Local · Docker Compose</h3>
+          <p class="body--text" style="margin:0">Four containers for development:</p>
+          <div class="chips">{containers.map((c) => <span class="chip">{c}</span>)}</div>
+        </div>
+        <div style="min-width:0">
+          <h3 class="label h-label">Live · Railway</h3>
+          <p class="body--text" style="margin:0">Deployed for the live graduation defense. The web server and the worker run as separate services, with the worker pointed at Railway’s Redis instead of localhost.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="h-team">
+      <h2 id="h-team" class="h2">My part and the team’s</h2>
+      <div class="three">
+        <div style="min-width:0"><h3 class="label h-label">Mine</h3><p class="fail__text">The job pipeline, the Docker setup and the Railway deployment. I also reviewed my backend teammate’s modules.</p></div>
+        <div style="min-width:0"><h3 class="label h-label">Together</h3><p class="fail__text">The two of us on the backend designed the architecture together.</p></div>
+        <div style="min-width:0"><h3 class="label h-label">Teammates</h3><p class="fail__text">User management and PDF lesson ingestion (backend teammate). The AI model and its pipeline (AI team). Data preprocessing. The frontend.</p></div>
+      </div>
+    </section>
+
+    <section class="shots" aria-label="Screenshots" style="padding-top:72px">
+      <Shot asset={{ src: '/img/soual-landing.webp', alt: 'Soual’s Arabic landing page: a headline about turning content into smart, interactive questions, a sample physics question card and a PDF-to-questions progress card', caption: 'Soual’s landing page', rot: '-1.2deg' }} tapeLeft="42%" />
+    </section>
+
+    <NextNav href="/work/maintenance-log/" kicker="Next case study" label="Maintenance Logging System" />
+  </main>
+  <footer class="nb-footer">Memo No. 05 · Soual · <a href="mailto:ayman_osama@outlook.com">ayman_osama@outlook.com</a></footer>
+</Notebook>
+
+<style>
+  .body--text { font-size: 19px; line-height: 36px; color: var(--text); }
+  .problem-note { padding-top: 108px; }
+  @media (max-width: 899px) { .problem-note { padding-top: 36px; } }
+  .steps { list-style: none; margin: 0; padding: 0; max-width: 820px; }
+  .steps li { display: flex; gap: 18px; font-size: 19px; line-height: 36px; }
+  .steps__n { flex-shrink: 0; width: 28px; font-family: var(--font-hand); font-size: 26px; color: var(--ink); }
+  .diagram { margin: 72px 0 0; transform: rotate(-0.4deg); padding: 36px 28px 28px; }
+  @media (max-width: 759px) { .diagram { transform: none; padding: 36px 14px 20px; } }
+  .diagram__scroll { overflow-x: auto; }
+  .diagram__scroll:focus-visible { outline-color: var(--insert-ink); }
+  .diagram__grid {
+    min-width: 760px; display: grid; align-items: center;
+    grid-template-columns: minmax(0,1fr) 44px minmax(0,1fr) 44px minmax(0,1fr) 44px minmax(0,1fr) 44px minmax(0,1fr);
+    font-family: var(--font-mono); font-size: 13px; line-height: 18px;
+  }
+  .node { text-align: center; padding: 14px 8px; border: 1.5px solid #5B574E; border-radius: 255px 14px 225px 14px / 14px 225px 14px 255px; }
+  .node__sub { color: #5B574E; font-size: 12px; }
+  .node--mine { border: 2px solid var(--insert-ink); color: var(--insert-ink); background: rgba(30,44,140,.06); }
+  .node--ext { border-style: dashed; }
+  .node--db { border-radius: 14px 255px 14px 225px / 225px 14px 255px 14px; }
+  .arr { width: 44px; height: 16px; fill: none; stroke-linecap: round; }
+  .arr--ink { stroke: var(--insert-ink); }
+  .vline { height: 40px; display: flex; justify-content: center; }
+  .vline span { width: 1.6px; height: 100%; background: #5B574E; }
+  .vline--ink span { width: 1.8px; background: var(--insert-ink); }
+  .diagram__note { padding-top: 18px; font-family: var(--font-hand); font-size: 24px; line-height: 30px; color: var(--insert-ink); }
+  .diagram__cap { margin-top: 20px; font-size: 15px; line-height: 22px; color: #4B473F; }
+  .three { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 36px 32px; }
+  .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 36px 64px; }
+  .fail__title { margin: 0; font-family: var(--font-hand); font-weight: 400; font-size: 30px; line-height: 36px; color: var(--ink); }
+  .fail__text { margin: 0; font-size: 18px; line-height: 36px; color: var(--text-soft); }
+  .h-label { margin: 0; font-weight: 400; }
+</style>

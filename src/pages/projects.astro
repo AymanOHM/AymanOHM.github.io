@@ -1,0 +1,31 @@
+---
+import Notebook from '../layouts/Notebook.astro';
+import SubHero from '../components/SubHero.astro';
+import NextNav from '../components/NextNav.astro';
+import Icon from '../components/Icon.astro';
+import { projects as p, siteTabs } from '../data/pages';
+---
+<Notebook title="Other projects · Ayman Osama Hassan" description="Smaller builds: a Django crowdfunding platform, a threaded TCP chat, a CPU scheduling simulator and an app store front end." memo={p.memo} tabs={siteTabs('Projects')} tabsLabel="Site">
+  <main id="content" class="sub-main">
+    <SubHero backHref="/" backLabel="Home" kicker={p.kicker} title={p.title} subtitle={p.subtitle} lede={p.lede} heroNote={p.heroNote} titleDesk={92} />
+    {p.items.map((s) => (
+      <section class="cols sec" aria-label={s.h}>
+        <div style="min-width:0">
+          <div class="meta">{s.kicker}</div>
+          <h2 class="h3">{s.h}</h2>
+          {s.paras.map((t) => <p class="body" style="margin:0">{t}</p>)}
+          <div class="chips">{s.chips.map((c) => <span class="chip">{c}</span>)}</div>
+          <a class="arrow-link" href={s.href}><span>View the code on GitHub</span><Icon name="arrow" /><span class="vh">: {s.h}</span></a>
+        </div>
+        <div class="note proj-note">{s.note}</div>
+      </section>
+    ))}
+    <NextNav href="/about/" kicker="Next" label="About me" />
+  </main>
+  <footer class="nb-footer">Memo No. {p.memo} · Other projects · <a href="mailto:ayman_osama@outlook.com">ayman_osama@outlook.com</a></footer>
+</Notebook>
+
+<style>
+  .proj-note { padding-top: 72px; }
+  @media (max-width: 899px) { .proj-note { padding-top: 36px; } }
+</style>

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Business card, print</title>
+<!--
+  Card 1 "Cover + page". Trim 85 x 55 mm, bleed 3 mm, safe area 3 mm inside trim.
+  Each PDF page is 101 x 71 mm: the 91 x 61 mm artwork (trim + bleed) sits 5 mm in, with crop marks in the slug.
+  Artwork is drawn in design px (343 px = 85 mm, so 1 px = 0.2478 mm) and scaled to mm.
+-->
+<style>
+@font-face { font-family: 'Nothing You Could Do'; src: url('../public/fonts/hand.woff2') format('woff2'); }
+@font-face { font-family: 'Newsreader'; src: url('../public/fonts/newsreader.woff2') format('woff2'); font-weight: 200 800; }
+@font-face { font-family: 'Fira Sans'; src: url('../public/fonts/fira-400.woff2') format('woff2'); font-weight: 400; }
+@font-face { font-family: 'Fira Sans'; src: url('../public/fonts/fira-500.woff2') format('woff2'); font-weight: 500; }
+@page { size: 101mm 71mm; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { background: #888; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+@media print { body { background: #fff; } }
+.sheet { position: relative; width: 101mm; height: 71mm; overflow: hidden; background: #fff; page-break-after: always; break-after: page; margin: 0 auto 6mm; }
+@media print { .sheet { margin: 0; } }
+/* crop marks: hairlines in the slug, aligned with the trim (8 mm from each page edge) */
+.mark { position: absolute; background: #000; }
+.mh { height: 0.25pt; width: 4mm; }
+.mv { width: 0.25pt; height: 4mm; }
+.art {
+  position: absolute; left: 5mm; top: 5mm;
+  width: 367.21px; height: 246.16px;          /* (343 + 2 x 12.106) x (221.95 + 2 x 12.106) design px */
+  transform: scale(0.93662); transform-origin: 0 0;
+  overflow: hidden;
+}
+/* --- Front: the cover --- */
+.front {
+  background-color: #2B2A2C;
+  background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(0,0,0,0.14) 0 1px, transparent 1px 3px);
+  font-family: 'Fira Sans', sans-serif;
+}
+.front .stitch { position: absolute; inset: 23px; border: 1.5px dashed rgba(220,213,196,0.75); border-radius: 9px; } /* 2.7 mm inside trim */
+.front .who { position: absolute; left: 50.1px; bottom: 56.1px; display: flex; flex-direction: column; gap: 10px; }
+.front .name { font-family: 'Nothing You Could Do', cursive; font-size: 27px; line-height: 30px; color: #EEE8D8; }
+.front .name div { white-space: nowrap; }
+.front .name div + div { padding-left: 2.2em; }
+.front .role { font-size: 9px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: #CFC8B6; }
+/* --- Back: the page --- */
+.back {
+  background-color: #F4EEDA;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 16px, #A9A498 16px 17px, transparent 17px 21px);
+  background-position: 0 12.106px;
+  font-family: 'Newsreader', Georgia, serif; color: #25231E;
+}
+.back .in { position: absolute; left: 12.106px; top: 12.106px; width: 343px; height: 221.95px; }
+.back .band { position: absolute; left: -12.106px; right: -12.106px; top: -12.106px; height: 59.1px; background: #F4EEDA; }
+.back .hdr { position: absolute; left: 32px; right: 32px; top: 22px; display: flex; justify-content: flex-end; align-items: flex-end; gap: 6px; font-family: 'Fira Sans', sans-serif; font-size: 8px; color: #6F6B62; }
+.back .hdr .nm { margin-right: auto; letter-spacing: 0.1em; text-transform: uppercase; }
+.back .hdr .memo { width: 44px; border-bottom: 0.75px solid #6F6B62; font-family: 'Nothing You Could Do', cursive; font-size: 13px; line-height: 13px; color: #1E2C8C; padding-left: 6px; }
+.back .rule2 { position: absolute; left: 32px; right: 32px; top: 41px; height: 2px; border-top: 1px solid #8F8A7E; border-bottom: 0.75px solid #8F8A7E; }
+.back .hello { position: absolute; left: 32px; top: 52px; height: 42px; font-family: 'Nothing You Could Do', cursive; font-size: 22px; line-height: 42px; color: #1E2C8C; white-space: nowrap; }
+.back .contacts { position: absolute; left: 32px; top: 105px; font-size: 10.5px; line-height: 21px; color: #3A3833; }
+.back .qr { position: absolute; right: 32px; top: 108px; width: 66px; height: 66px; }
+.back .qr svg { width: 100%; height: 100%; display: block; }
+</style>
+</head>
+<body>
+
+<section class="sheet" aria-label="Front">
+  <div class="art front">
+    <div class="stitch" aria-hidden="true"></div>
+    <div class="who">
+      <div class="name"><div>Ayman Osama</div><div>Hassan</div></div>
+      <div class="role">Software Engineer</div>
+    </div>
+  </div>
+  <i class="mark mh" style="left:0.5mm;top:8mm"></i><i class="mark mh" style="right:0.5mm;top:8mm"></i>
+  <i class="mark mh" style="left:0.5mm;top:63mm"></i><i class="mark mh" style="right:0.5mm;top:63mm"></i>
+  <i class="mark mv" style="left:8mm;top:0.5mm"></i><i class="mark mv" style="left:93mm;top:0.5mm"></i>
+  <i class="mark mv" style="left:8mm;bottom:0.5mm"></i><i class="mark mv" style="left:93mm;bottom:0.5mm"></i>
+</section>
+
+<section class="sheet" aria-label="Back">
+  <div class="art back">
+    <div class="in">
+      <div class="band"></div>
+      <div class="hdr"><span class="nm">Ayman Osama Hassan</span><span>Memo No.</span><span class="memo">01</span></div>
+      <div class="rule2" aria-hidden="true"></div>
+      <div class="hello">say hello</div>
+      <div class="contacts">
+        <div>ayman_osama@outlook.com</div>
+        <div>linkedin.com/in/aymanohm</div>
+        <div>+20 102 455 5798</div>
+        <div>aymanohm.github.io</div>
+      </div>
+      <div class="qr" role="img" aria-label="QR code to aymanohm.github.io"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33" shape-rendering="crispEdges"><path stroke="#1E2C8C" d="M2 2.5h7m1 0h1m2 0h5m1 0h2m3 0h7M2 3.5h1m5 0h1m2 0h1m1 0h1m3 0h1m1 0h1m2 0h1m1 0h1m5 0h1M2 4.5h1m1 0h3m1 0h1m1 0h1m1 0h2m1 0h1m3 0h3m2 0h1m1 0h3m1 0h1M2 5.5h1m1 0h3m1 0h1m2 0h2m4 0h3m2 0h1m1 0h1m1 0h3m1 0h1M2 6.5h1m1 0h3m1 0h1m2 0h3m3 0h2m1 0h1m3 0h1m1 0h3m1 0h1M2 7.5h1m5 0h1m1 0h3m2 0h2m1 0h3m3 0h1m5 0h1M2 8.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M13 9.5h1m1 0h1M2 10.5h1m1 0h1m3 0h2m1 0h2m1 0h2m1 0h2m3 0h1m2 0h1m2 0h1m1 0h1M6 11.5h1m4 0h1m1 0h2m3 0h2m1 0h2m1 0h2m3 0h2M2 12.5h2m1 0h1m1 0h2m1 0h1m2 0h4m1 0h5m3 0h3m1 0h1M2 13.5h4m5 0h4m1 0h3m1 0h1m1 0h1m1 0h1m2 0h1M3 14.5h1m2 0h5m1 0h2m1 0h2m4 0h1m2 0h2m4 0h1M3 15.5h1m2 0h1m4 0h1m1 0h1m1 0h2m2 0h1m1 0h2m1 0h2m3 0h2M2 16.5h2m1 0h5m1 0h4m2 0h1m3 0h1m4 0h1m3 0h1M2 17.5h1m2 0h3m1 0h1m1 0h1m1 0h1m1 0h1m4 0h1m2 0h4M2 18.5h1m2 0h1m2 0h1m1 0h1m2 0h3m1 0h2m1 0h1m1 0h1m1 0h2m4 0h1M6 19.5h1m3 0h1m1 0h3m3 0h2m1 0h2m1 0h2m2 0h3M2 20.5h3m3 0h5m1 0h3m1 0h1m2 0h1m1 0h1m2 0h2m2 0h1M4 21.5h4m3 0h1m1 0h1m2 0h3m1 0h3m3 0h1M2 22.5h2m2 0h3m1 0h1m2 0h1m1 0h2m2 0h9m1 0h1M10 23.5h1m2 0h4m2 0h1m2 0h1m3 0h3m1 0h1M2 24.5h7m1 0h1m6 0h1m4 0h1m1 0h1m1 0h1m3 0h1M2 25.5h1m5 0h1m2 0h1m1 0h1m1 0h1m3 0h1m1 0h2m3 0h1m2 0h2M2 26.5h1m1 0h3m1 0h1m2 0h2m2 0h1m1 0h3m1 0h7m1 0h1M2 27.5h1m1 0h3m1 0h1m3 0h1m1 0h2m2 0h1m3 0h2m1 0h5M2 28.5h1m1 0h3m1 0h1m1 0h1m1 0h1m2 0h1m2 0h3m2 0h1m2 0h1m2 0h2M2 29.5h1m5 0h1m3 0h1m4 0h2m1 0h1m1 0h4m1 0h1M2 30.5h7m1 0h2m1 0h1m5 0h4m1 0h4m2 0h1"/></svg></div>
+    </div>
+  </div>
+  <i class="mark mh" style="left:0.5mm;top:8mm"></i><i class="mark mh" style="right:0.5mm;top:8mm"></i>
+  <i class="mark mh" style="left:0.5mm;top:63mm"></i><i class="mark mh" style="right:0.5mm;top:63mm"></i>
+  <i class="mark mv" style="left:8mm;top:0.5mm"></i><i class="mark mv" style="left:93mm;top:0.5mm"></i>
+  <i class="mark mv" style="left:8mm;bottom:0.5mm"></i><i class="mark mv" style="left:93mm;bottom:0.5mm"></i>
+</section>
+
+</body>
+</html>

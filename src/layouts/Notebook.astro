@@ -1,0 +1,105 @@
+---
+import '../styles/global.css';
+import Icon from '../components/Icon.astro';
+
+export interface Tab { label: string; href: string; current?: boolean }
+interface Props {
+  title: string;
+  description: string;
+  memo: string;
+  tabs: Tab[];
+  tabsLabel: string;
+  home?: boolean;
+  path?: string;
+}
+const { title, description, memo, tabs, tabsLabel, home = false, path = Astro.url.pathname } = Astro.props;
+const canonical = new URL(path, Astro.site).href;
+const currentAttr = home ? 'true' : 'page';
+
+// Build-time fallback for readers without JS; the script swaps in the visitor's clock.
+const now = new Date();
+const dayIdx = (now.getDay() + 6) % 7;
+const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const pad = (n: number) => String(n).padStart(2, '0');
+const dateText = `${pad(now.getDate())}   /   ${pad(now.getMonth() + 1)}   /   ${String(now.getFullYear()).slice(2)}`;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonical} />
+  <meta name="theme-color" content="#2B2A2C" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preload" href="/fonts/hand.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/newsreader.woff2" as="font" type="font/woff2" crossorigin />
+  <script is:inline>
+    (function () {
+      var d = document.documentElement;
+      d.classList.add('js');
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <div class="desk" id="top">
+    <div class="stitch" aria-hidden="true"></div>
+    <div class="page">
+      <div class="tabs-side">
+        <nav aria-label={tabsLabel}>
+          {tabs.map((t) => <a href={t.href} aria-current={t.current ? currentAttr : undefined} data-tab={t.label}>{t.label}</a>)}
+        </nav>
+      </div>
+
+      <header class="nb-header" data-compactable={home ? '' : undefined}>
+        <div class="nb-header__inner">
+          <div class="hdr-row">
+            <div class="hdr-left">
+              <div class="theme-group" role="group" aria-label="Theme">
+                <button type="button" class="theme-btn" data-set-theme="light" aria-label="Light theme" aria-pressed="true" title="Light theme">
+                  <span class="theme-btn__box"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"></path></svg></span>
+                  <Icon name="check" class="theme-btn__check" />
+                </button>
+                <button type="button" class="theme-btn" data-set-theme="dark" aria-label="Dark theme" aria-pressed="false" title="Dark theme">
+                  <span class="theme-btn__box"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg></span>
+                  <Icon name="check" class="theme-btn__check" />
+                </button>
+              </div>
+              <div class="weekdays" role="img" aria-label={`Today: ${dayNames[dayIdx]}`}>
+                {['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].map((d, i) => <span class={i === dayIdx ? 'today' : undefined} aria-hidden="true">{d}</span>)}
+              </div>
+            </div>
+            <div class="hdr-right">
+              <div class="hdr-field memo-row"><span>Memo No.</span><span class="hdr-field__val" data-memo>{memo}</span></div>
+              <div class="hdr-field date-row"><span>Date</span><span class="hdr-field__val" data-date>{dateText}</span></div>
+            </div>
+          </div>
+          <div class="hdr-rule" aria-hidden="true"></div>
+        </div>
+      </header>
+
+      <nav class="tabs-strip" aria-label={tabsLabel}>
+        {tabs.map((t) => <a href={t.href} aria-current={t.current ? currentAttr : undefined} data-tab={t.label}>{t.label}</a>)}
+      </nav>
+
+      <slot />
+
+      <span class="ribbon" aria-hidden="true"></span>
+    </div>
+    <div class="desk-tail" aria-hidden="true"></div>
+  </div>
+  <script>
+    import '../scripts/notebook.ts';
+  </script>
+</body>
+</html>

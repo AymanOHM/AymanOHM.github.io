@@ -1,0 +1,8 @@
+---
+import Icon from './Icon.astro';
+interface Props { href: string; kicker: string; label: string }
+const { href, kicker, label } = Astro.props;
+---
+<nav class="next-nav" aria-label="Next page">
+  <a href={href}><span class="label">{kicker}</span><span class="next-nav__big">{label}<Icon name="arrow" width={34} height={16} /></span></a>
+</nav>

@@ -1,0 +1,29 @@
+---
+import CaseStudy from '../components/CaseStudy.astro';
+import Stickers from '../components/Stickers.astro';
+import { about } from '../data/pages';
+---
+<CaseStudy page={about}>
+  <section class="about-contact" aria-labelledby="h-contact">
+    <div style="min-width:0">
+      <h2 id="h-contact" class="h2">Say hello</h2>
+      <p class="about-contact__lead">Open to backend, software engineering and junior DevOps / DevSecOps roles in Greater Cairo or remote.</p>
+      <a class="about-contact__email" href="mailto:ayman_osama@outlook.com">ayman_osama@outlook.com</a>
+      <div class="about-contact__links">
+        <a class="tlink" href="https://www.linkedin.com/in/aymanohm">LinkedIn</a>
+        <a class="tlink" href="https://github.com/AymanOHM">GitHub</a>
+        <a class="tlink" href="/cv/Ayman_Osama_Hassan_CV.pdf" download>CV (PDF)</a>
+      </div>
+    </div>
+    <Stickers height={252} />
+  </section>
+</CaseStudy>
+
+<style>
+  .about-contact { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 36px 64px; padding-top: 72px; align-items: start; }
+  .about-contact__lead { margin: 0; font-size: 22px; line-height: 36px; font-weight: 500; }
+  .about-contact__email { display: inline-block; max-width: 100%; overflow-wrap: anywhere; font-size: 26px; line-height: 72px; font-weight: 600; color: var(--ink); text-underline-offset: 7px; }
+  .about-contact__email:hover { text-decoration-thickness: 2px; }
+  .about-contact__links { display: flex; flex-wrap: wrap; gap: 0 32px; line-height: 36px; }
+  .about-contact__links .tlink { font-size: 19px; }
+</style>

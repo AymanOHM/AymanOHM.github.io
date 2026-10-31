@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Soual case study, Ayman Osama Hassan</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&amp;family=Fira+Sans:wght@400;500&amp;family=JetBrains+Mono:wght@400;500&amp;family=Nothing+You+Could+Do&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div id="top" style="position: relative; min-height: 100vh; background-color: {{t.desk}}; background-image: {{t.deskImage}}; padding: clamp(0px, 3vw, 48px) clamp(0px, 5vw, 96px) 0 clamp(0px, 3vw, 48px); box-sizing: border-box; font-family: 'Newsreader', Georgia, serif; color: {{t.text}}">
+<div aria-hidden="true" style="position: absolute; inset: 10px; border: 2px dashed {{t.stitch}}; border-radius: 16px; pointer-events: none"></div>
+<div style="position: relative; max-width: 1180px; margin: 0 auto; background-color: {{t.page}}; background-image: {{t.pageImage}}; border-radius: 4px 20px 0 0; box-shadow: {{t.sheetShadow}}; padding-bottom: 72px">
+
+<sc-if value="{{wide}}" hint-placeholder-val="{{ true }}">
+<div style="position: absolute; top: 0; bottom: 0; right: -44px; width: 44px">
+<nav aria-label="Site" style="position: sticky; top: 132px; display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{tabs}}" as="tb" hint-placeholder-count="3">
+<a href="{{tb.href}}" aria-current="{{tb.current}}" style="display: flex; align-items: center; justify-content: center; width: {{tb.width}}; height: 104px; margin-left: -4px; box-sizing: border-box; background: {{tb.bg}}; color: {{tb.color}}; border-radius: 0 10px 10px 0; box-shadow: 2px 1px 3px rgba(0,0,0,0.18); text-decoration: none; writing-mode: vertical-rl; font-family: 'Fira Sans', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.06em">{{tb.label}}</a>
+</sc-for>
+</nav>
+</div>
+</sc-if>
+
+<header style="position: {{headerPos}}; top: 0; z-index: 5; height: 108px; background-color: {{t.page}}; background-image: {{t.headerImage}}; border-radius: 4px 20px 0 0; padding: 0 clamp(20px, 6vw, 88px); box-sizing: border-box; display: flex; flex-direction: column; justify-content: flex-end">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 4px 24px; padding-bottom: 6px; font-family: 'Fira Sans', sans-serif; color: {{t.print}}">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="display: flex; margin-left: -7px" role="group" aria-label="Theme">
+<button onClick="{{setLight}}" aria-label="Light theme" aria-pressed="{{lightPressed}}" title="Light theme" style="position: relative; width: 44px; height: 44px; padding: 7px; border: 0; background: transparent; cursor: pointer"><span style="width: 30px; height: 30px; box-sizing: border-box; border: 1.5px solid {{t.print}}; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{t.print}}" stroke-width="1.4" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"></path></svg></span><sc-if value="{{isLight}}" hint-placeholder-val="{{ true }}"><svg aria-hidden="true" width="34" height="30" viewBox="0 0 34 30" fill="none" stroke="{{t.ink}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 24px; top: 0px; width: 24px; height: 21px"><path d="M4 16 C 7 19, 10 23, 12 27 C 17 17, 24 8, 32 2"></path></svg></sc-if></button>
+<button onClick="{{setDark}}" aria-label="Dark theme" aria-pressed="{{darkPressed}}" title="Dark theme" style="position: relative; width: 44px; height: 44px; padding: 7px; border: 0; background: transparent; cursor: pointer"><span style="width: 30px; height: 30px; box-sizing: border-box; border: 1.5px solid {{t.print}}; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{t.print}}" stroke-width="1.4" stroke-linecap="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg></span><sc-if value="{{isDark}}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" width="34" height="30" viewBox="0 0 34 30" fill="none" stroke="{{t.ink}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 24px; top: 0px; width: 24px; height: 21px"><path d="M4 16 C 7 19, 10 23, 12 27 C 17 17, 24 8, 32 2"></path></svg></sc-if></button>
+</div>
+<div style="display: flex" aria-label="{{todayLabel}}">
+<sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+<span style="position: relative; width: 24px; height: 18px; border: 1px solid {{t.print}}; margin-left: -1px; font-size: 10px; line-height: 18px; text-align: center">{{d.label}}<sc-if value="{{d.today}}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position: absolute; left: -6px; top: -10px; width: 34px; height: 34px; border: 2px solid {{t.ink}}; border-radius: 52% 48% 55% 45% / 48% 55% 45% 52%; transform: rotate(-8deg)"></span></sc-if></span>
+</sc-for>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 200px; font-size: 15px">
+<div style="display: flex; align-items: flex-end; gap: 8px"><span>Memo No.</span><span style="flex: 1; border-bottom: 1px solid {{t.print}}; height: 26px; font-family: 'Nothing You Could Do', cursive; font-size: 24px; line-height: 26px; color: {{t.ink}}; padding-left: 10px">05</span></div>
+<div style="display: flex; align-items: flex-end; gap: 8px"><span>Date</span><span style="flex: 1; border-bottom: 1px solid {{t.print}}; height: 26px; font-family: 'Nothing You Could Do', cursive; font-size: 22px; line-height: 26px; color: {{t.ink}}; padding-left: 22px">{{dateText}}</span></div>
+</div>
+</div>
+<div aria-hidden="true" style="height: 4px; flex-shrink: 0; border-top: 1.5px solid {{t.rule}}; border-bottom: 1px solid {{t.rule}}"></div>
+</header>
+
+<sc-if value="{{narrow}}" hint-placeholder-val="{{ false }}">
+<nav aria-label="Site" style="display: flex; gap: 4px; height: 36px; padding: 0 clamp(20px, 6vw, 88px)">
+<sc-for list="{{tabs}}" as="tb" hint-placeholder-count="3">
+<a href="{{tb.href}}" aria-current="{{tb.current}}" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 36px; background: {{tb.bg}}; color: {{tb.color}}; border-radius: 0 0 8px 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.12); text-decoration: none; font-family: 'Fira Sans', sans-serif; font-size: 13px; font-weight: 500">{{tb.label}}</a>
+</sc-for>
+</nav>
+</sc-if>
+
+<main style="padding: 36px clamp(20px, 6vw, 88px) 0">
+
+<a href="Notebook.dc.html" style="display: inline-flex; align-items: center; gap: 10px; height: 36px; color: {{t.ink}}; font-size: 17px; font-weight: 600; text-decoration: none"><svg aria-hidden="true" width="30" height="14" viewBox="0 0 34 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M32 9 C 24 7, 14 9, 4 8 M11 2 C 8 4, 5 6, 3 8 C 6 10, 9 12, 12 14"></path></svg>All work</a>
+
+<div style="display: grid; grid-template-columns: {{secCols}}; gap: 0 64px; padding-top: 36px">
+<div style="min-width: 0">
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 36px; letter-spacing: 0.04em; color: {{t.print}}">CASE STUDY 01 · GRADUATION PROJECT · 2026</div>
+<h1 style="margin: 0 0 36px; position: relative; top: {{nameShift}}; font-family: 'Nothing You Could Do', cursive; font-weight: 400; font-size: {{nameSize}}; line-height: 108px; color: {{t.ink}}">Soual</h1>
+<p style="margin: 0 0 36px; font-size: 30px; line-height: 36px; font-weight: 500; letter-spacing: -0.01em">An AI question generator, and the pipeline that keeps it fast.</p>
+<p style="margin: 0; font-size: 19px; line-height: 36px; color: {{t.soft}}">Soual writes exam-prep questions (multiple choice, true/false and short answer) for Egyptian secondary-school students, in the style of the new Thanaweya Amma exam. My job was the part that lets a slow AI model sit behind a fast API.</p>
+</div>
+<div style="min-width: 0; padding-top: 72px; font-family: 'Nothing You Could Do', cursive; font-size: 26px; line-height: 36px; color: {{t.ink}}; transform: rotate(-1.5deg); transform-origin: left">soual means question, in Arabic</div>
+</div>
+
+<dl style="margin: 72px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0 32px; border-top: 1.5px solid {{t.text}}">
+<div><dt style="font-family: 'Fira Sans', sans-serif; font-size: 12px; line-height: 36px; letter-spacing: 0.08em; text-transform: uppercase; color: {{t.print}}">My role</dt><dd style="margin: 0; font-size: 17px; line-height: 36px">Job pipeline, Docker setup, Railway deployment</dd></div>
+<div><dt style="font-family: 'Fira Sans', sans-serif; font-size: 12px; line-height: 36px; letter-spacing: 0.08em; text-transform: uppercase; color: {{t.print}}">Team</dt><dd style="margin: 0; font-size: 17px; line-height: 36px">6 people: 2 backend, 2 AI, 1 data preprocessing, 1 frontend</dd></div>
+<div><dt style="font-family: 'Fira Sans', sans-serif; font-size: 12px; line-height: 36px; letter-spacing: 0.08em; text-transform: uppercase; color: {{t.print}}">Result</dt><dd style="margin: 0; font-size: 17px; line-height: 36px">Graded Excellent, full marks</dd></div>
+<div><dt style="font-family: 'Fira Sans', sans-serif; font-size: 12px; line-height: 36px; letter-spacing: 0.08em; text-transform: uppercase; color: {{t.print}}">Code</dt><dd style="margin: 0; font-size: 17px; line-height: 36px"><a href="https://github.com/AI-Question-Generator/grad-project-backend" style="color: {{t.ink}}; font-weight: 600; text-underline-offset: 5px">Backend repo on GitHub</a></dd></div>
+</dl>
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 36px; color: {{t.print}}">Django REST Framework · Celery · Redis · PostgreSQL · Docker Compose · Railway</div>
+
+<section aria-labelledby="h-problem" style="display: grid; grid-template-columns: {{secCols}}; gap: 0 64px; padding-top: 72px">
+<div style="min-width: 0">
+<h2 id="h-problem" style="margin: 0 0 36px; font-family: 'Nothing You Could Do', cursive; font-weight: 400; font-size: 50px; line-height: 72px; color: {{t.ink}}">The problem</h2>
+<p style="margin: 0; font-size: 19px; line-height: 36px">The questions come from an AI model that the AI team hosted on Kaggle, and that model was slow. If the API waited for it inside the request, every user would sit on an open request for the whole model run, and one slow call could tie up the web server.</p>
+</div>
+<div style="min-width: 0; padding-top: 108px; font-family: 'Nothing You Could Do', cursive; font-size: 26px; line-height: 36px; color: {{t.ink}}">the model is slow.<br>the API does not have to be.</div>
+</section>
+
+<section aria-labelledby="h-built" style="padding-top: 72px">
+<h2 id="h-built" style="margin: 0 0 36px; font-family: 'Nothing You Could Do', cursive; font-weight: 400; font-size: 50px; line-height: 72px; color: {{t.ink}}">What I built</h2>
+<p style="margin: 0; font-size: 19px; line-height: 36px; max-width: 760px">A job pipeline that moves the AI call out of the request:</p>
+<ol style="list-style: none; margin: 0; padding: 0; max-width: 820px">
+<sc-for list="{{steps}}" as="st" hint-placeholder-count="5">
+<li style="display: flex; gap: 18px; font-size: 19px; line-height: 36px"><span aria-hidden="true" style="flex-shrink: 0; width: 28px; font-family: 'Nothing You Could Do', cursive; font-size: 26px; color: {{t.ink}}">{{st.n}}</span><span>{{st.text}}</span></li>
+</sc-for>
+</ol>
+
+<figure aria-label="Architecture diagram of the Soual job pipeline" style="position: relative; margin: 72px 0 0; background-color: #FBF8EF; background-image: linear-gradient(#E1E6EE 1px, transparent 1px), linear-gradient(90deg, #E1E6EE 1px, transparent 1px); background-size: 18px 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.14); transform: rotate(-0.4deg); padding: 36px 28px 28px; color: #25231E">
+<span aria-hidden="true" style="position: absolute; top: -12px; left: 40px; width: 96px; height: 26px; background: rgba(236,224,186,0.85); transform: rotate(-5deg)"></span>
+<span aria-hidden="true" style="position: absolute; top: -10px; right: 48px; width: 88px; height: 26px; background: rgba(236,224,186,0.85); transform: rotate(4deg)"></span>
+<div style="overflow-x: auto">
+<div style="min-width: 760px; display: grid; grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr) 44px minmax(0, 1fr) 44px minmax(0, 1fr) 44px minmax(0, 1fr); row-gap: 0; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 18px">
+<div style="grid-column: 1; text-align: center; padding: 14px 8px; border: 1.5px solid #5B574E; border-radius: 255px 14px 225px 14px / 14px 225px 14px 255px">Client</div>
+<svg aria-hidden="true" viewBox="0 0 44 16" style="grid-column: 2; width: 44px; height: 16px" fill="none" stroke="#5B574E" stroke-width="1.6" stroke-linecap="round"><path d="M2 8 H 40 M33 3 L 40 8 L 33 13"></path></svg>
+<div style="grid-column: 3; text-align: center; padding: 14px 8px; border: 1.5px solid #5B574E; border-radius: 255px 14px 225px 14px / 14px 225px 14px 255px">Django API<br><span style="color: #5B574E; font-size: 12px">returns 202</span></div>
+<svg aria-hidden="true" viewBox="0 0 44 16" style="grid-column: 4; width: 44px; height: 16px" fill="none" stroke="{{paperInk}}" stroke-width="1.8" stroke-linecap="round"><path d="M2 8 H 40 M33 3 L 40 8 L 33 13"></path></svg>
+<div style="grid-column: 5; text-align: center; padding: 14px 8px; border: 2px solid {{paperInk}}; color: {{paperInk}}; background: rgba(30,44,140,0.06); border-radius: 255px 14px 225px 14px / 14px 225px 14px 255px">Redis queue</div>
+<svg aria-hidden="true" viewBox="0 0 44 16" style="grid-column: 6; width: 44px; height: 16px" fill="none" stroke="{{paperInk}}" stroke-width="1.8" stroke-linecap="round"><path d="M2 8 H 40 M33 3 L 40 8 L 33 13"></path></svg>
+<div style="grid-column: 7; text-align: center; padding: 14px 8px; border: 2px solid {{paperInk}}; color: {{paperInk}}; background: rgba(30,44,140,0.06); border-radius: 255px 14px 225px 14px / 14px 225px 14px 255px">Celery worker<br><span style="font-size: 12px">retries · batches</span></div>
+<svg aria-hidden="true" viewBox="0 0 44 16" style="grid-column: 8; width: 44px; height: 16px" fill="none" stroke="#5B574E" stroke-width="1.6" stroke-linecap="round"><path d="M2 5 H 40 M33 1 L 40 5 M2 11 H 40 M9 15 L 2 11"></path></svg>
+<div style="grid-column: 9; text-align: center; padding: 14px 8px; border: 1.5px dashed #5B574E; border-radius: 255px 14px 225px 14px / 14px 225px 14px 255px">AI service<br><span style="color: #5B574E; font-size: 12px">Kaggle</span></div>
+
+<div style="grid-column: 3; height: 40px; display: flex; justify-content: center"><span style="width: 1.6px; height: 100%; background: #5B574E"></span></div>
+<div style="grid-column: 7; height: 40px; display: flex; justify-content: center"><span style="width: 1.8px; height: 100%; background: {{paperInk}}"></span></div>
+<div style="grid-column: 3 / 8; text-align: center; padding: 14px 8px; border: 1.5px solid #5B574E; border-radius: 14px 255px 14px 225px / 225px 14px 255px 14px">PostgreSQL · request status: PENDING → PROCESSING → COMPLETED / COMPLETED_WITH_ERRORS</div>
+<div style="grid-column: 1 / 4; padding-top: 18px; font-family: 'Nothing You Could Do', cursive; font-size: 24px; line-height: 30px; color: {{paperInk}}">client polls the status, then fetches the questions</div>
+</div>
+</div>
+<figcaption style="margin-top: 20px; font-size: 15px; line-height: 22px; color: #4B473F">Fig. 1. Ringed in ink: the parts I built. The API never waits on the AI; it records the request, queues it and answers 202 straight away.</figcaption>
+</figure>
+</section>
+
+<section aria-labelledby="h-fail" style="padding-top: 72px">
+<h2 id="h-fail" style="margin: 0 0 36px; font-family: 'Nothing You Could Do', cursive; font-weight: 400; font-size: 50px; line-height: 72px; color: {{t.ink}}">Handling failure</h2>
+<p style="margin: 0 0 36px; font-size: 19px; line-height: 36px; max-width: 760px">The AI service could fail partway through, so I made the worker tolerate that.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 36px 32px">
+<sc-for list="{{failures}}" as="f" hint-placeholder-count="3">
+<div style="min-width: 0">
+<div style="font-family: 'Nothing You Could Do', cursive; font-size: 30px; line-height: 36px; color: {{t.ink}}">{{f.title}}</div>
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 36px; color: {{t.print}}">{{f.code}}</div>
+<p style="margin: 0; font-size: 18px; line-height: 36px; color: {{t.soft}}">{{f.text}}</p>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section aria-labelledby="h-deploy" style="padding-top: 72px">
+<h2 id="h-deploy" style="margin: 0 0 36px; font-family: 'Nothing You Could Do', cursive; font-weight: 400; font-size: 50px; line-height: 72px; color: {{t.ink}}">Deployment</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 36px 64px">
+<div style="min-width: 0">
+<div style="font-family: 'Fira Sans', sans-serif; font-size: 12px; line-height: 36px; letter-spacing: 0.08em; text-transform: uppercase; color: {{t.print}}">Local · Docker Compose</div>
+<p style="margin: 0; font-size: 19px; line-height: 36px">Four containers for development:</p>
+<div style="display: flex; flex-wrap: wrap; gap: 0 10px; padding: 0; line-height: 36px">
+<sc-for list="{{containers}}" as="c" hint-placeholder-count="4">
+<span style="display: inline-flex; align-items: center; height: 28px; margin: 4px 0; padding: 0 12px; border: 1.5px solid {{t.ink}}; border-radius: 4px 10px 3px 8px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: {{t.ink}}">{{c}}</span>
+</sc-for>
+</div>
+</div>
+<div style="min-width: 0">
+<div style="font-family: 'Fira Sans', sans-serif; font-size: 12px; line-height: 36px; letter-spacing: 0.08em; text-transform: uppercase; color: {{t.print}}">Live · Railway</div>
+<p style="margin: 0; font-size: 19px; line-height: 36px">Deployed for the live graduation defense. The web server and the worker run as separate services, with the worker pointed at Railway’s Redis instead of localhost.</p>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="h-team" style="padding-top: 72px">
+<h2 id="h-team" style="margin: 0 0 36px; font-family: 'Nothing You Could Do', cursive; font-weight: 400; font-size: 50px; line-height: 72px; color: {{t.ink}}">My part and the team’s</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 36px 32px">
+<div style="min-width: 0"><div style="font-family: 'Fira Sans', sans-serif; font-size: 12px; line-height: 36px; letter-spacing: 0.08em; text-transform: uppercase; color: {{t.print}}">Mine</div><p style="margin: 0; font-size: 18px; line-height: 36px">The job pipeline, the Docker setup and the Railway deployment. I also reviewed my backend teammate’s modules.</p></div>
+<div style="min-width: 0"><div style="font-family: 'Fira Sans', sans-serif; font-size: 12px; line-height: 36px; letter-spacing: 0.08em; text-transform: uppercase; color: {{t.print}}">Together</div><p style="margin: 0; font-size: 18px; line-height: 36px">The two of us on the backend designed the architecture together.</p></div>
+<div style="min-width: 0"><div style="font-family: 'Fira Sans', sans-serif; font-size: 12px; line-height: 36px; letter-spacing: 0.08em; text-transform: uppercase; color: {{t.print}}">Teammates</div><p style="margin: 0; font-size: 18px; line-height: 36px">User management and PDF lesson ingestion (backend teammate). The AI model and its pipeline (AI team). Data preprocessing. The frontend.</p></div>
+</div>
+</section>
+
+<section aria-label="Screenshots" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 36px 48px; padding-top: 72px">
+<div style="position: relative; height: 252px; background: #FBF8EF; padding: 10px 10px 34px; box-sizing: border-box; box-shadow: 0 2px 6px rgba(0,0,0,0.14); transform: rotate(-1.2deg)"><span aria-hidden="true" style="position: absolute; top: -10px; left: 42%; width: 80px; height: 22px; background: rgba(236,224,186,0.85); transform: rotate(-3deg)"></span><div style="height: 100%; background: #CFC9BA; display: flex; align-items: center; justify-content: center; font-style: italic; font-size: 15px; color: #4B473F">[screenshot: request and status flow]</div></div>
+<div style="position: relative; height: 252px; background: #FBF8EF; padding: 10px 10px 34px; box-sizing: border-box; box-shadow: 0 2px 6px rgba(0,0,0,0.14); transform: rotate(1deg)"><span aria-hidden="true" style="position: absolute; top: -10px; left: 38%; width: 80px; height: 22px; background: rgba(236,224,186,0.85); transform: rotate(4deg)"></span><div style="height: 100%; background: #CFC9BA; display: flex; align-items: center; justify-content: center; font-style: italic; font-size: 15px; color: #4B473F">[defense demo recording, if available]</div></div>
+</section>
+
+<nav aria-label="Next case study" style="padding-top: 108px">
+<a href="CaseMaintenance.dc.html" style="display: inline-flex; flex-direction: column; gap: 0; text-decoration: none; color: {{t.ink}}"><span style="font-family: 'Fira Sans', sans-serif; font-size: 12px; line-height: 36px; letter-spacing: 0.08em; text-transform: uppercase; color: {{t.print}}">Next case study</span><span style="display: inline-flex; align-items: center; gap: 12px; font-size: 30px; line-height: 36px; font-weight: 600">Maintenance Logging System<svg aria-hidden="true" width="34" height="16" viewBox="0 0 34 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9 C 10 7, 20 9, 30 8 M23 2 C 26 4, 29 6, 31 8 C 28 10, 25 12, 22 14"></path></svg></span></a>
+</nav>
+</main>
+
+<footer style="padding: 72px clamp(20px, 6vw, 88px) 0; font-family: 'Fira Sans', sans-serif; font-size: 13px; line-height: 36px; color: {{t.print}}">Memo No. 05 · Soual · <a href="mailto:ayman_osama@outlook.com" style="color: {{t.print}}">ayman_osama@outlook.com</a></footer>
+<span aria-hidden="true" style="position: absolute; left: 18%; bottom: -96px; width: 22px; height: 96px; background: #111012; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 84%, 0 100%)"></span>
+</div>
+<div aria-hidden="true" style="height: 120px"></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":1440,"height":3800}}'>
+class Component extends DCLogic {
+componentDidMount() {
+  var self = this;
+  this.onR = function () { self.setState({ w: window.innerWidth }); };
+  window.addEventListener('resize', this.onR);
+  this.onR();
+}
+componentWillUnmount() { if (this.onR) window.removeEventListener('resize', this.onR); }
+renderVals() {
+  var s = this.state || {};
+  var dark = s.dark !== undefined ? s.dark : !!this.props.dark;
+  var w = s.w || 1440;
+  var wide = w >= 1100;
+  var ruled = function (c) { return 'repeating-linear-gradient(to bottom, transparent 0, transparent 26px, ' + c + ' 26px, ' + c + ' 27px, transparent 27px, transparent 36px)'; };
+  var fabric = 'repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(0,0,0,0.12) 0 1px, transparent 1px 3px)';
+  var t = dark ? {
+    desk: '#151416', deskImage: fabric, page: '#28272B', pageImage: 'linear-gradient(to right, rgba(0,0,0,0.35), rgba(0,0,0,0) 30px), ' + ruled('#4A4850'), headerImage: 'linear-gradient(to right, rgba(0,0,0,0.35), rgba(0,0,0,0) 30px)', print: '#A8A396', rule: '#6A6870',
+    text: '#EEE8D8', soft: '#CCC5B4', ink: '#AFC1FF', stitch: 'rgba(215,208,190,0.55)', sheetShadow: '0 30px 60px rgba(0,0,0,0.55)', tab: '#34333A', tabText: '#CCC5B4'
+  } : {
+    desk: '#2B2A2C', deskImage: fabric, page: '#F4EEDA', pageImage: 'linear-gradient(to right, rgba(0,0,0,0.08), rgba(0,0,0,0) 30px), ' + ruled('#9C978B'), headerImage: 'linear-gradient(to right, rgba(0,0,0,0.08), rgba(0,0,0,0) 30px)', print: '#6F6B62', rule: '#8F8A7E',
+    text: '#25231E', soft: '#4B473F', ink: '#1E2C8C', stitch: 'rgba(215,208,190,0.55)', sheetShadow: '0 30px 60px rgba(0,0,0,0.35)', tab: '#E3DAC0', tabText: '#4B473F'
+  };
+  var nameF = w < 760 ? 72 : 108;
+  var now = new Date();
+  var dayIdx = (now.getDay() + 6) % 7;
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  var tabs = [
+    { label: 'Home', href: 'Notebook.dc.html', cur: false },
+    { label: 'Work', href: 'Notebook.dc.html', cur: true },
+    { label: 'Projects', href: 'Projects.dc.html', cur: false },
+    { label: 'About', href: 'About.dc.html', cur: false }
+  ].map(function (tb) { return { label: tb.label, href: tb.href, current: tb.cur ? 'page' : 'false', width: tb.cur ? '48px' : '40px', bg: tb.cur ? t.page : t.tab, color: tb.cur ? t.ink : t.tabText }; });
+  var self = this;
+  return {
+    t: t,
+    paperInk: '#1E2C8C',
+    wide: wide,
+    secCols: w >= 900 ? 'minmax(0, 2fr) minmax(0, 1fr)' : 'minmax(0, 1fr)',
+    narrow: !wide,
+    headerPos: w >= 760 ? 'sticky' : 'relative',
+    nameSize: nameF + 'px',
+    nameShift: (44 - 0.2695 * nameF).toFixed(1) + 'px',
+    tabs: tabs,
+    days: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].map(function (d, i) { return { label: d, today: i === dayIdx }; }),
+    todayLabel: 'Today: ' + ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][dayIdx],
+    dateText: pad(now.getDate()) + '   /   ' + pad(now.getMonth() + 1) + '   /   ' + String(now.getFullYear()).slice(2),
+    steps: [
+      { n: '1', text: 'The client sends a generation request. The API saves it to PostgreSQL with status PENDING and returns 202 Accepted right away.' },
+      { n: '2', text: 'The task goes onto a Redis queue.' },
+      { n: '3', text: 'A Celery worker picks it up, sets PROCESSING, and calls the AI service.' },
+      { n: '4', text: 'The worker saves the generated questions and sets the final status.' },
+      { n: '5', text: 'The client polls the request until it is done, then fetches the questions.' }
+    ],
+    failures: [
+      { title: 'Retries', code: '3 attempts · 30 s apart', text: 'Short outages are absorbed instead of failing the whole request.' },
+      { title: 'Batching', code: '≤ 10 questions per AI call', text: 'Each call stays bounded, so a failure loses less work.' },
+      { title: 'Partial success', code: 'COMPLETED_WITH_ERRORS', text: 'Some question types can fail while others succeed. The request still finishes, and the stored error log says what failed.' }
+    ],
+    containers: ['Gunicorn web', 'Celery worker', 'PostgreSQL 15', 'Redis 7'],
+    isLight: !dark,
+    isDark: dark,
+    lightPressed: dark ? 'false' : 'true',
+    darkPressed: dark ? 'true' : 'false',
+    setLight: function () { self.setState({ dark: false }); },
+    setDark: function () { self.setState({ dark: true }); }
+  };
+}
+}
+</script>
+</body>
+</html>

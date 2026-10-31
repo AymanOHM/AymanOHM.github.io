@@ -1,0 +1,18 @@
+{
+  "name": "aymanohm-portfolio",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/check-placeholders.mjs dist card",
+    "preview": "astro preview",
+    "card:pdf": "node scripts/card-pdf.mjs"
+  },
+  "dependencies": {
+    "astro": "7.4.4"
+  },
+  "devDependencies": {
+    "qrcode": "1.5.4"
+  }
+}

@@ -1,0 +1,301 @@
+---
+import Notebook from '../layouts/Notebook.astro';
+import Icon from '../components/Icon.astro';
+import Stickers from '../components/Stickers.astro';
+
+const tabs = [
+  { label: 'Intro', href: '#top', current: true },
+  { label: 'Work', href: '#work' },
+  { label: 'Learning', href: '#learning' },
+  { label: 'Contact', href: '#contact' },
+  { label: 'About', href: '/about/' },
+];
+const CIRCLE = 'M8 58 C 4 22, 70 6, 96 34 C 104 60, 74 96, 34 92 C 6 88, -2 58, 22 26';
+const topics = ['Linux and Bash', 'Docker', 'Kubernetes', 'AWS', 'Terraform', 'Ansible', 'Jenkins CI/CD'];
+const trackStart = '2026-10-17';
+const trackEnd = '2027-02-28';
+const buildPct = Math.min(1, Math.max(0, (Date.now() - Date.parse(trackStart)) / (Date.parse(trackEnd) - Date.parse(trackStart))));
+---
+<Notebook
+  title="Ayman Osama Hassan, backend engineer"
+  description="Ayman Osama Hassan builds backends that stay fast when the work is slow: job queues, background workers and the deployment around them. New Cairo, Egypt."
+  memo="01" tabs={tabs} tabsLabel="Sections" home path="/">
+
+  <main id="content" class="home">
+    <section data-sec="1" aria-label="Introduction" class="hero">
+      <h1 class="hero__name hand"><span>Ayman Osama</span><span class="hero__name2">Hassan</span></h1>
+      <div class="hero__left">
+        <p class="hero__claim">I build <span class="annotated">backends<svg class="anno" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none" style="left:-16px;top:-12px;width:calc(100% + 32px);height:calc(100% + 22px);--dur:900ms;--delay:500ms"><path d={CIRCLE} pathLength="1" /></svg></span> that stay fast when the work is slow: job queues, background workers and the deployment around them.</p>
+        <div class="hero__cta">
+          <a class="btn-primary" href="/cv/Ayman_Osama_Hassan_CV.pdf" download>Download CV (PDF)<Icon name="arrow" /></a>
+          <a class="tlink" href="https://github.com/AymanOHM">GitHub</a>
+          <a class="tlink" href="https://www.linkedin.com/in/aymanohm">LinkedIn</a>
+        </div>
+        <p class="body hero__para">Python and Django are home. I graduated in Computer and Automatic Control Engineering from Tanta University in 2026 with Excellent (90%), spent years on ICPC in C++, and now set problems for the Tanta University ICPC Community.</p>
+      </div>
+
+      <figure class="demo insert insert--graph" data-demo aria-label="Interactive demo: a request without a queue versus with Ayman's pipeline">
+        <span class="tape" aria-hidden="true" style="top:-12px;left:18px;width:92px;transform:rotate(-6deg)"></span>
+        <span class="tape" aria-hidden="true" style="top:-10px;right:22px;width:84px;transform:rotate(5deg)"></span>
+        <div class="demo__intro">
+          <span class="demo__title">try it: ask Soual for 10 questions</span>
+          <span class="demo__lede">Soual writes exam questions with an AI model that takes a while. Same request, two backends:</span>
+        </div>
+        <div class="lane lane--a">
+          <div class="lane__head"><span class="lane__name">WITHOUT A QUEUE</span><span class="lane__path">you → server → AI</span></div>
+          <div class="lane__track"><div class="lane__bar" data-a-bar></div></div>
+          <div class="lane__status"><span class="lane__dot" data-a-dot aria-hidden="true"></span><span data-a-text>Press the button below to send the request.</span></div>
+        </div>
+        <div class="lane lane--b">
+          <div class="lane__head"><span class="lane__name">WITH MY PIPELINE</span><span class="lane__path">API → queue → worker → AI</span></div>
+          <div class="lane__stages">
+            <div data-stage></div><div data-stage></div><div data-stage></div><div data-stage></div>
+          </div>
+          <div class="lane__status"><span class="lane__dot" data-b-dot aria-hidden="true"></span><span data-b-text>Press the button below to send the request.</span></div>
+          <div class="lane__job" data-b-job></div>
+        </div>
+        <div class="demo__buttons">
+          <button type="button" class="btn-outline" data-run>Ask for 10 questions</button>
+          <button type="button" class="btn-text" data-run-fail>What if the AI fails?</button>
+        </div>
+        <span class="vh" aria-live="polite" data-live></span>
+        <figcaption class="demo__caption">Real setup: Django REST, Redis, Celery, PostgreSQL. Failed AI calls retry 3 times, 30 s apart; anything that still fails is logged, and the rest is kept.</figcaption>
+      </figure>
+    </section>
+
+    <section data-sec="2" id="work" aria-labelledby="h-work" class="home-sec">
+      <h2 id="h-work" class="h2 h2--home">Selected work</h2>
+
+      <article class="work-row">
+        <div class="meta">Graduation project<br />6-person team<br />Graded Excellent, full marks</div>
+        <div class="work-row__main">
+          <h3 class="h3">Soual: AI Question Generator</h3>
+          <p class="body">A slow AI model behind a fast API. Requests get an answer right away; a background worker makes the AI call, retries when it fails, and saves partial results instead of losing everything.</p>
+          <div class="meta">Django REST · Celery · Redis · PostgreSQL · Docker · Railway</div>
+          <a class="arrow-link" href="/work/soual/"><span>Read the case study</span><Icon name="arrow" /><span class="vh">: Soual</span></a>
+        </div>
+        <div class="note work-row__note">graded <span class="annotated">Excellent<svg class="anno" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none" style="left:-8px;top:-4px;width:calc(100% + 16px);height:calc(100% + 8px);--dur:800ms;--delay:200ms"><path d={CIRCLE} pathLength="1" /></svg></span>, full marks<br />I built the queue, worker and deploy</div>
+      </article>
+
+      <article class="work-row">
+        <div class="meta">Aug 2026 → now<br />Aktan Misr Textile<br />In use, trial period</div>
+        <div class="work-row__main">
+          <h3 class="h3">Maintenance Logging System</h3>
+          <p class="body">A breakdown log for a textile factory floor: <span class="annotated">100 machines, 17 technicians<svg class="anno" aria-hidden="true" viewBox="0 0 100 20" preserveAspectRatio="none" style="left:0;bottom:-6px;width:100%;height:10px;--dur:700ms;--delay:500ms"><path d="M1 12 C 25 6, 55 16, 99 8" pathLength="1" /></svg></span>, and summaries that show which machines break down most and how much downtime each department loses.</p>
+          <div class="meta">Internal tools · Google Sheets · Apps Script · rollout</div>
+          <a class="arrow-link" href="/work/maintenance-log/"><span>Read the case study</span><Icon name="arrow" /><span class="vh">: Maintenance Logging System</span></a>
+        </div>
+        <div class="note work-row__note"><span class="strike">Microsoft free tier</span><br /><Icon name="arrow" width={34} height={16} style="vertical-align:-1px;margin-right:6px" />Google Sheets<br />paper logs kept running in parallel</div>
+      </article>
+
+      <article class="work-row">
+        <div class="meta">Computer graphics course<br />Team project</div>
+        <div class="work-row__main">
+          <h3 class="h3">2-Player OpenGL Game</h3>
+          <p class="body">A two-player platformer with no game engine. I wrote most of it: collision detection, wall jumps and friction, input for two players, sprite animation and the game-state machine.</p>
+          <div class="meta">Python · PyOpenGL</div>
+          <a class="arrow-link" href="/work/opengl-game/"><span>Read the case study</span><Icon name="arrow" /><span class="vh">: 2-Player OpenGL Game</span></a>
+        </div>
+        <div class="note work-row__note work-row__note--bracket">
+          <svg class="anno" aria-hidden="true" viewBox="0 0 20 100" preserveAspectRatio="none" style="left:0;top:40px;width:14px;height:64px;--dur:700ms;--delay:1200ms"><path d="M16 2 C 4 4, 8 30, 6 48 C 5 52, 1 50, 1 52 C 1 54, 5 52, 6 56 C 8 72, 4 96, 16 98" pathLength="1" /></svg>
+          no engine,<br />just math and Python</div>
+      </article>
+
+      <article class="work-row work-row--last">
+        <div class="meta">Feb 2024 → Jul 2026<br />~63-member team<br />1st Concept Class, 3rd overall</div>
+        <div class="work-row__main">
+          <h3 class="h3">T-Racers Formula Student</h3>
+          <p class="body">I chose the ECU and sensors for our concept-class race car, drew its pinout and wrote the electrical documentation. I also prepared the materials for the Project Management event, where we placed 1st overall.</p>
+          <div class="meta">Haltech Nexus R3 · sensors · wiring · documentation</div>
+          <a class="arrow-link" href="/work/t-racers/"><span>Read the case study</span><Icon name="arrow" /><span class="vh">: T-Racers Formula Student</span></a>
+        </div>
+        <div class="work-row__side">
+          <figure class="print insert">
+            <span class="tape" aria-hidden="true" style="top:-10px;left:64px;width:70px;height:22px;transform:rotate(-4deg)"></span>
+            <img src="/img/tracers-team-small.webp" alt="The T-Racers team, about thirty members, posing on the steps outside a building" width="180" height="102" loading="lazy" decoding="async" />
+          </figure>
+          <div class="note" style="font-size:24px">Silverstone 2026:<br />1st in Concept Class<br />3rd overall</div>
+        </div>
+      </article>
+
+      <div class="more-link"><a href="/projects/"><span>More projects: crowdfunding platform, TCP chat, CPU scheduler, app store</span><Icon name="arrow" /></a></div>
+    </section>
+
+    <section data-sec="3" id="learning" aria-labelledby="h-learning" class="home-sec learning">
+      <div class="learning__left">
+        <h2 id="h-learning" class="h2 h2--home">Currently learning</h2>
+        <p class="body" style="margin-bottom:36px">The NTI Professional DevSecOps track: 420 hours, from 17 October 2026 to February 2027. It is the other half of backend work, getting code built, shipped and secured. Projects from the track land here as I finish them.</p>
+        <div class="timeline" data-timeline data-start={trackStart} data-end={trackEnd} style={`--pct:${buildPct.toFixed(4)}`}>
+          <div class="timeline__dates"><span>17 Oct 2026</span><span>Feb 2027</span></div>
+          <svg class="timeline__line" aria-hidden="true" viewBox="0 0 100 10" preserveAspectRatio="none">
+            <path d="M0 5 C 20 3, 40 7, 60 4 S 85 6, 100 5" class="timeline__base" />
+          </svg>
+          <svg class="timeline__line timeline__progress" aria-hidden="true" viewBox="0 0 100 10" preserveAspectRatio="none">
+            <path d="M0 5 C 20 3, 40 7, 60 4 S 85 6, 100 5" />
+          </svg>
+          <div class="timeline__today"><Icon name="arrow-up" /><span>today</span></div>
+        </div>
+      </div>
+      <div class="learning__right">
+        <ul class="checklist" aria-label="Track topics, none completed yet">
+          {topics.map((t) => <li><span class="box" aria-hidden="true"></span>{t}</li>)}
+        </ul>
+        <div class="note" style="font-size:24px;padding-top:36px;transform:rotate(-1.5deg);transform-origin:left">a box gets ticked when there is a project to show for it</div>
+      </div>
+    </section>
+
+    <section data-sec="4" id="contact" aria-labelledby="h-contact" class="home-sec contact">
+      <div style="min-width:0">
+        <h2 id="h-contact" class="h2 h2--home">Say hello</h2>
+        <p class="contact__lead">I am looking for backend or software engineering roles, or junior DevOps and DevSecOps roles, in Greater Cairo or remote.</p>
+        <a class="contact__email" href="mailto:ayman_osama@outlook.com">ayman_osama@outlook.com<svg class="anno" aria-hidden="true" viewBox="0 0 100 20" preserveAspectRatio="none" style="left:0;bottom:14px;width:100%;height:12px;--dur:900ms;--delay:300ms"><path d="M1 10 C 30 16, 60 4, 99 11" pathLength="1" style="stroke-width:2.4" /></svg></a>
+        <div class="contact__links">
+          <a class="tlink" href="https://www.linkedin.com/in/aymanohm">LinkedIn</a>
+          <a class="tlink" href="https://github.com/AymanOHM">GitHub</a>
+          <span class="contact__place">New Cairo, Egypt</span>
+        </div>
+      </div>
+      <Stickers height={216} />
+    </section>
+  </main>
+
+  <footer class="nb-footer">Memo No. 04 · last entry, more pages to come</footer>
+</Notebook>
+
+<style>
+  .hero {
+    padding: 72px var(--gutter-x) 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+    gap: 36px 64px;
+  }
+  .hero__name {
+    --f: 92px;
+    grid-column: 1 / -1; margin: 0; position: relative;
+    top: calc(26px - 0.2695 * var(--f));
+    font-size: var(--f); line-height: 72px;
+  }
+  .hero__name span { display: block; white-space: nowrap; }
+  .hero__name2 { padding-left: 2.2em; }
+  @media (max-width: 1099px) { .hero__name { --f: 72px; } }
+  @media (max-width: 759px) { .hero__name { --f: 44px; } }
+  .hero__left { display: flex; flex-direction: column; min-width: 0; }
+  .hero__claim { margin: 0 0 36px; font-size: 28px; line-height: 36px; font-weight: 500; letter-spacing: -.01em; text-wrap: pretty; }
+  .annotated { position: relative; white-space: nowrap; }
+  .hero__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; min-height: 72px; margin-bottom: 36px; }
+  .hero__cta .tlink { font-size: 19px; }
+  .hero__para { max-width: 580px; }
+
+  /* Demo */
+  .demo {
+    margin: 0; align-self: start; transform: rotate(0.8deg);
+    padding: 30px 24px 24px; display: flex; flex-direction: column; gap: 18px; min-width: 0;
+  }
+  @media (max-width: 759px) { .demo { transform: none; padding: 30px 16px 20px; } }
+  .demo__intro { display: flex; flex-direction: column; gap: 2px; }
+  .demo__title { font-family: var(--font-hand); font-size: 26px; line-height: 34px; color: var(--insert-ink); }
+  .demo__lede { font-size: 15px; line-height: 22px; color: #4B473F; }
+  .lane { display: flex; flex-direction: column; gap: 8px; padding: 14px 14px 12px; background: rgba(255,255,255,.6); }
+  .lane--a { border: 1.5px solid var(--grey-lane); border-radius: 255px 10px 225px 10px / 10px 225px 10px 255px; }
+  .lane--b { border: 2px solid var(--insert-ink); border-radius: 10px 255px 10px 225px / 225px 10px 255px 10px; }
+  .lane__head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; font-family: var(--font-mono); font-size: 12px; }
+  .lane__name { font-weight: 500; color: #4B473F; letter-spacing: .04em; }
+  .lane--b .lane__name { color: var(--insert-ink); }
+  .lane__path { color: #5B574E; }
+  .lane__track { height: 10px; border-radius: 5px; background: #E6E0CF; overflow: hidden; }
+  .lane__bar { height: 100%; width: 0; background: var(--grey-lane); transition: width 1400ms linear, background 300ms; }
+  .lane__stages { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  .lane__stages div { height: 10px; border-radius: 5px; background: #E6E0CF; transition: background 400ms; }
+  .lane__status { display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 16px; line-height: 22px; }
+  .lane__dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; background: #C9C4B8; }
+  .lane__job { font-family: var(--font-mono); font-size: 12px; line-height: 18px; color: #4B473F; min-height: 36px; }
+  .demo__buttons { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; }
+  .btn-outline {
+    min-height: 44px; padding: 0 18px; border: 2px solid var(--insert-ink); background: transparent; color: var(--insert-ink);
+    border-radius: 255px 14px 225px 14px / 14px 225px 14px 255px; cursor: pointer;
+    font-family: var(--font-serif); font-size: 17px; font-weight: 600;
+  }
+  .btn-outline:hover { background: rgba(30,44,140,.06); }
+  .btn-outline:active { transform: translateY(1px); }
+  .btn-text {
+    min-height: 44px; padding: 0 12px; border: 0; background: transparent; color: #25231E; cursor: pointer;
+    font-family: var(--font-serif); font-size: 16px; text-decoration: underline; text-decoration-color: #8A857A; text-underline-offset: 5px;
+  }
+  .btn-text:hover { text-decoration-thickness: 2px; }
+  .demo :focus-visible { outline-color: var(--insert-ink); }
+  .demo__caption { font-size: 14px; line-height: 21px; color: #5B574E; }
+
+  /* Work */
+  .home-sec { padding: 108px var(--gutter-x) 0; }
+  .work-row { display: grid; grid-template-columns: 190px minmax(0, 1fr) 230px; gap: 0 36px; padding: 0 0 36px; }
+  .work-row--last { padding-bottom: 0; }
+  .work-row__main { min-width: 0; }
+  .work-row__note { padding-top: 36px; position: relative; }
+  .work-row__note--bracket { padding: 36px 0 0 22px; }
+  .work-row__side { display: flex; flex-direction: column; gap: 12px; padding-top: 18px; }
+  @media (max-width: 1099px) {
+    .work-row { grid-template-columns: 170px minmax(0, 1fr); }
+    .work-row__note, .work-row__side { grid-column: 2; }
+  }
+  @media (max-width: 759px) {
+    .work-row { grid-template-columns: minmax(0, 1fr); }
+    .work-row__note, .work-row__side { grid-column: 1; }
+  }
+  .print {
+    width: 196px; height: 132px; padding: 8px 8px 22px; margin: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,.14);
+    transform: rotate(-3deg); opacity: 1;
+    transition: transform 700ms cubic-bezier(.3,1.3,.5,1) 300ms, opacity 400ms 300ms;
+  }
+  .print img { width: 100%; height: 100%; object-fit: cover; }
+  :global(html.js) [data-sec]:not(:global(.seen)) .print { transform: rotate(-9deg) translateY(24px); opacity: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    :global(html.js) [data-sec]:not(:global(.seen)) .print { transform: rotate(-3deg); opacity: 1; }
+  }
+  .more-link { padding-top: 36px; }
+  .more-link a {
+    display: inline-flex; align-items: center; gap: 10px; min-height: 44px;
+    color: var(--ink); font-size: 19px; font-weight: 600; text-decoration: none; border-bottom: 1.5px solid var(--ink);
+  }
+  .more-link a:hover { border-bottom-width: 2px; }
+  .more-link svg { flex-shrink: 0; }
+
+  /* Learning */
+  .learning { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 36px 72px; }
+  .learning__left, .learning__right { min-width: 0; }
+  .learning__right { padding-top: 108px; }
+  @media (max-width: 1019px) { .learning__right { padding-top: 0; } }
+  .timeline { position: relative; height: 108px; }
+  .timeline__dates { position: absolute; left: 0; right: 0; top: 30px; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 13px; color: var(--print); }
+  .timeline__line { position: absolute; left: 0; right: 0; top: 56px; width: 100%; height: 12px; overflow: visible; }
+  .timeline__line path { fill: none; vector-effect: non-scaling-stroke; }
+  .timeline__base { stroke: var(--text); stroke-width: 1.6; }
+  /* Ink overlay grows to today's share of the track (a clip, since dashes break with non-scaling strokes). */
+  .timeline__progress {
+    clip-path: inset(-10px calc(100% - var(--pct) * 100%) -10px -4px);
+    transition: clip-path 900ms ease 300ms;
+  }
+  .timeline__progress path { stroke: var(--ink); stroke-width: 4; stroke-linecap: round; }
+  :global(html.js) [data-sec]:not(:global(.seen)) .timeline__progress { clip-path: inset(-10px 100% -10px -4px); }
+  .timeline__today {
+    position: absolute; top: 66px; left: calc(var(--pct) * 100%); transform: translateX(-10px);
+    display: flex; align-items: flex-start; gap: 6px;
+    font-family: var(--font-hand); font-size: 22px; line-height: 36px; color: var(--ink); white-space: nowrap;
+  }
+  .timeline__today span { padding-top: 6px; }
+  .checklist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0 24px; font-size: 19px; line-height: 36px; }
+  .checklist li { display: flex; align-items: center; gap: 14px; height: 36px; }
+  .box { width: 17px; height: 17px; flex-shrink: 0; border: 1.8px solid var(--ink); border-radius: 3px 6px 2px 5px; transform: rotate(-3deg); }
+
+  /* Contact */
+  .contact { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 36px 72px; align-items: start; }
+  .contact__lead { margin: 0 0 36px; font-size: 26px; line-height: 36px; font-weight: 500; letter-spacing: -.01em; }
+  .contact__email {
+    display: inline-block; position: relative; max-width: 100%; overflow-wrap: anywhere;
+    font-size: clamp(22px, 2.6vw, 30px); line-height: 72px; font-weight: 600; color: var(--ink); text-decoration: none;
+  }
+  .contact__email:hover { text-decoration: underline; text-underline-offset: 8px; }
+  .contact__links { display: flex; flex-wrap: wrap; align-items: center; gap: 0 32px; line-height: 72px; }
+  .contact__links .tlink { font-size: 20px; }
+  .contact__place { font-family: var(--font-print); font-size: 15px; color: var(--print); }
+</style>

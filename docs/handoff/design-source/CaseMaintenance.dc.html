@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Maintenance Logging System case study, Ayman Osama Hassan</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&amp;family=Fira+Sans:wght@400;500&amp;family=JetBrains+Mono:wght@400;500&amp;family=Nothing+You+Could+Do&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div id="top" style="position: relative; min-height: 100vh; background-color: {{t.desk}}; background-image: {{t.deskImage}}; padding: clamp(0px, 3vw, 48px) clamp(0px, 5vw, 96px) 0 clamp(0px, 3vw, 48px); box-sizing: border-box; font-family: 'Newsreader', Georgia, serif; color: {{t.text}}">
+<div aria-hidden="true" style="position: absolute; inset: 10px; border: 2px dashed {{t.stitch}}; border-radius: 16px; pointer-events: none"></div>
+<div style="position: relative; max-width: 1180px; margin: 0 auto; background-color: {{t.page}}; background-image: {{t.pageImage}}; border-radius: 4px 20px 0 0; box-shadow: {{t.sheetShadow}}; padding-bottom: 72px">
+
+<sc-if value="{{wide}}" hint-placeholder-val="{{ true }}">
+<div style="position: absolute; top: 0; bottom: 0; right: -44px; width: 44px">
+<nav aria-label="Site" style="position: sticky; top: 132px; display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{tabs}}" as="tb" hint-placeholder-count="4">
+<a href="{{tb.href}}" aria-current="{{tb.current}}" style="display: flex; align-items: center; justify-content: center; width: {{tb.width}}; height: 104px; margin-left: -4px; box-sizing: border-box; background: {{tb.bg}}; color: {{tb.color}}; border-radius: 0 10px 10px 0; box-shadow: 2px 1px 3px rgba(0,0,0,0.18); text-decoration: none; writing-mode: vertical-rl; font-family: 'Fira Sans', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.06em">{{tb.label}}</a>
+</sc-for>
+</nav>
+</div>
+</sc-if>
+
+<header style="position: {{headerPos}}; top: 0; z-index: 5; height: 108px; background-color: {{t.page}}; background-image: {{t.headerImage}}; border-radius: 4px 20px 0 0; padding: 0 clamp(20px, 6vw, 88px); box-sizing: border-box; display: flex; flex-direction: column; justify-content: flex-end">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 4px 24px; padding-bottom: 6px; font-family: 'Fira Sans', sans-serif; color: {{t.print}}">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<div style="display: flex; margin-left: -7px" role="group" aria-label="Theme">
+<button onClick="{{setLight}}" aria-label="Light theme" aria-pressed="{{lightPressed}}" title="Light theme" style="position: relative; width: 44px; height: 44px; padding: 7px; border: 0; background: transparent; cursor: pointer"><span style="width: 30px; height: 30px; box-sizing: border-box; border: 1.5px solid {{t.print}}; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{t.print}}" stroke-width="1.4" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"></path></svg></span><sc-if value="{{isLight}}" hint-placeholder-val="{{ true }}"><svg aria-hidden="true" width="34" height="30" viewBox="0 0 34 30" fill="none" stroke="{{t.ink}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 24px; top: 0px; width: 24px; height: 21px"><path d="M4 16 C 7 19, 10 23, 12 27 C 17 17, 24 8, 32 2"></path></svg></sc-if></button>
+<button onClick="{{setDark}}" aria-label="Dark theme" aria-pressed="{{darkPressed}}" title="Dark theme" style="position: relative; width: 44px; height: 44px; padding: 7px; border: 0; background: transparent; cursor: pointer"><span style="width: 30px; height: 30px; box-sizing: border-box; border: 1.5px solid {{t.print}}; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{t.print}}" stroke-width="1.4" stroke-linecap="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg></span><sc-if value="{{isDark}}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" width="34" height="30" viewBox="0 0 34 30" fill="none" stroke="{{t.ink}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 24px; top: 0px; width: 24px; height: 21px"><path d="M4 16 C 7 19, 10 23, 12 27 C 17 17, 24 8, 32 2"></path></svg></sc-if></button>
+</div>
+<div style="display: flex" aria-label="{{todayLabel}}">
+<sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+<span style="position: relative; width: 24px; height: 18px; border: 1px solid {{t.print}}; margin-left: -1px; font-size: 10px; line-height: 18px; text-align: center">{{d.label}}<sc-if value="{{d.today}}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position: absolute; left: -6px; top: -10px; width: 34px; height: 34px; border: 2px solid {{t.ink}}; border-radius: 52% 48% 55% 45% / 48% 55% 45% 52%; transform: rotate(-8deg)"></span></sc-if></span>
+</sc-for>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 200px; font-size: 15px">
+<div style="display: flex; align-items: flex-end; gap: 8px"><span>Memo No.</span><span style="flex: 1; border-bottom: 1px solid {{t.print}}; height: 26px; font-family: 'Nothing You Could Do', cursive; font-size: 24px; line-height: 26px; color: {{t.ink}}; padding-left: 10px">{{page.memo}}</span></div>
+<div style="display: flex; align-items: flex-end; gap: 8px"><span>Date</span><span style="flex: 1; border-bottom: 1px solid {{t.print}}; height: 26px; font-family: 'Nothing You Could Do', cursive; font-size: 22px; line-height: 26px; color: {{t.ink}}; padding-left: 22px">{{dateText}}</span></div>
+</div>
+</div>
+<div aria-hidden="true" style="height: 4px; flex-shrink: 0; border-top: 1.5px solid {{t.rule}}; border-bottom: 1px solid {{t.rule}}"></div>
+</header>
+
+<sc-if value="{{narrow}}" hint-placeholder-val="{{ false }}">
+<nav aria-label="Site" style="display: flex; gap: 4px; height: 36px; padding: 0 clamp(20px, 6vw, 88px)">
+<sc-for list="{{tabs}}" as="tb" hint-placeholder-count="4">
+<a href="{{tb.href}}" aria-current="{{tb.current}}" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 36px; background: {{tb.bg}}; color: {{tb.color}}; border-radius: 0 0 8px 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.12); text-decoration: none; font-family: 'Fira Sans', sans-serif; font-size: 13px; font-weight: 500">{{tb.label}}</a>
+</sc-for>
+</nav>
+</sc-if>
+
+<main style="padding: 36px clamp(20px, 6vw, 88px) 0">
+<a href="{{page.backHref}}" style="display: inline-flex; align-items: center; gap: 10px; height: 36px; color: {{t.ink}}; font-size: 17px; font-weight: 600; text-decoration: none"><svg aria-hidden="true" width="30" height="14" viewBox="0 0 34 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M32 9 C 24 7, 14 9, 4 8 M11 2 C 8 4, 5 6, 3 8 C 6 10, 9 12, 12 14"></path></svg>{{page.backLabel}}</a>
+
+<div style="display: grid; grid-template-columns: {{secCols}}; gap: 0 64px; padding-top: 36px">
+<div style="min-width: 0">
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 36px; letter-spacing: 0.04em; color: {{t.print}}">{{page.kicker}}</div>
+<h1 style="margin: 0 0 36px; position: relative; top: {{nameShift}}; font-family: 'Nothing You Could Do', cursive; font-weight: 400; font-size: {{nameSize}}; line-height: 108px; color: {{t.ink}}; white-space: nowrap">{{page.title}}</h1>
+<p style="margin: 0 0 36px; font-size: 30px; line-height: 36px; font-weight: 500; letter-spacing: -0.01em; text-wrap: balance">{{page.subtitle}}</p>
+<p style="margin: 0; font-size: 19px; line-height: 36px; color: {{t.soft}}">{{page.lede}}</p>
+</div>
+<div style="min-width: 0; padding-top: 180px; font-family: 'Nothing You Could Do', cursive; font-size: 26px; line-height: 36px; color: {{t.ink}}; transform: rotate(-1.5deg); transform-origin: left; white-space: pre-line">{{page.heroNote}}</div>
+</div>
+
+<dl style="margin: 72px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0 32px; border-top: 1.5px solid {{t.text}}">
+<sc-for list="{{facts}}" as="f" hint-placeholder-count="4">
+<div><dt style="font-family: 'Fira Sans', sans-serif; font-size: 12px; line-height: 36px; letter-spacing: 0.08em; text-transform: uppercase; color: {{t.print}}">{{f.label}}</dt><dd style="margin: 0; font-size: 17px; line-height: 36px"><sc-if value="{{f.isLink}}" hint-placeholder-val="{{ false }}"><a href="{{f.href}}" style="color: {{t.ink}}; font-weight: 600; text-underline-offset: 5px">{{f.value}}</a></sc-if><sc-if value="{{f.isText}}" hint-placeholder-val="{{ true }}">{{f.value}}</sc-if></dd></div>
+</sc-for>
+</dl>
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 36px; color: {{t.print}}">{{page.stack}}</div>
+
+<sc-if value="{{hasStats}}" hint-placeholder-val="{{ false }}">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0 32px; padding-top: 72px">
+<sc-for list="{{stats}}" as="sx" hint-placeholder-count="4">
+<div><div style="font-family: 'Nothing You Could Do', cursive; font-size: 56px; line-height: 72px; color: {{t.ink}}">{{sx.big}}</div><div style="font-size: 17px; line-height: 36px; color: {{t.soft}}">{{sx.label}}</div></div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-for list="{{sections}}" as="sec" hint-placeholder-count="4">
+<section style="display: grid; grid-template-columns: {{secCols}}; gap: 0 64px; padding-top: 72px">
+<h2 style="grid-column: 1 / -1; margin: 0 0 36px; font-family: 'Nothing You Could Do', cursive; font-weight: 400; font-size: 50px; line-height: 72px; color: {{t.ink}}">{{sec.h}}</h2>
+<div style="min-width: 0">
+<sc-for list="{{sec.paras}}" as="pp" hint-placeholder-count="1">
+<p style="margin: 0 0 36px; font-size: 19px; line-height: 36px">{{pp}}</p>
+</sc-for>
+<sc-if value="{{sec.hasList}}" hint-placeholder-val="{{ false }}">
+<ul style="list-style: none; margin: 0 0 36px; padding: 0">
+<sc-for list="{{sec.list}}" as="li" hint-placeholder-count="4">
+<li style="display: flex; gap: 14px; font-size: 19px; line-height: 36px"><span aria-hidden="true" style="flex-shrink: 0; width: 18px; font-family: 'Nothing You Could Do', cursive; font-size: 24px; color: {{t.ink}}">-</span><span>{{li}}</span></li>
+</sc-for>
+</ul>
+</sc-if>
+<sc-if value="{{sec.hasChips}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; gap: 0 10px; margin-bottom: 36px">
+<sc-for list="{{sec.chips}}" as="c" hint-placeholder-count="5">
+<span style="display: inline-flex; align-items: center; height: 28px; margin: 4px 0; padding: 0 12px; border: 1.5px solid {{t.ink}}; border-radius: 4px 10px 3px 8px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: {{t.ink}}">{{c}}</span>
+</sc-for>
+</div>
+</sc-if>
+</div>
+<div style="min-width: 0; font-family: 'Nothing You Could Do', cursive; font-size: 26px; line-height: 36px; color: {{t.ink}}; white-space: pre-line">{{sec.note}}</div>
+</section>
+</sc-for>
+
+<section aria-label="Images" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 36px 48px; padding-top: 36px">
+<sc-for list="{{assets}}" as="a" hint-placeholder-count="2">
+<div style="position: relative; height: 252px; background: #FBF8EF; padding: 10px 10px 34px; box-sizing: border-box; box-shadow: 0 2px 6px rgba(0,0,0,0.14); transform: rotate({{a.rot}})"><span aria-hidden="true" style="position: absolute; top: -10px; left: 40%; width: 80px; height: 22px; background: rgba(236,224,186,0.85); transform: rotate(-3deg)"></span><div style="height: 100%; background: #CFC9BA; display: flex; align-items: center; justify-content: center; text-align: center; padding: 12px; box-sizing: border-box; font-style: italic; font-size: 15px; color: #4B473F">{{a.label}}</div></div>
+</sc-for>
+</section>
+
+<nav aria-label="Next page" style="padding-top: 108px">
+<a href="{{page.nextHref}}" style="display: inline-flex; flex-direction: column; text-decoration: none; color: {{t.ink}}"><span style="font-family: 'Fira Sans', sans-serif; font-size: 12px; line-height: 36px; letter-spacing: 0.08em; text-transform: uppercase; color: {{t.print}}">{{page.nextKicker}}</span><span style="display: inline-flex; align-items: center; gap: 12px; font-size: 30px; line-height: 36px; font-weight: 600">{{page.nextLabel}}<svg aria-hidden="true" width="34" height="16" viewBox="0 0 34 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9 C 10 7, 20 9, 30 8 M23 2 C 26 4, 29 6, 31 8 C 28 10, 25 12, 22 14"></path></svg></span></a>
+</nav>
+</main>
+
+<footer style="padding: 72px clamp(20px, 6vw, 88px) 0; font-family: 'Fira Sans', sans-serif; font-size: 13px; line-height: 36px; color: {{t.print}}">Memo No. {{page.memo}} · {{page.footer}} · <a href="mailto:ayman_osama@outlook.com" style="color: {{t.print}}">ayman_osama@outlook.com</a></footer>
+<span aria-hidden="true" style="position: absolute; left: 18%; bottom: -96px; width: 22px; height: 96px; background: #111012; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 84%, 0 100%)"></span>
+</div>
+<div aria-hidden="true" style="height: 120px"></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":1440,"height":3200}}'>
+class Component extends DCLogic {
+content() {
+  return {
+    activeTab: 'Work',
+    page: {
+      memo: '06', footer: 'Maintenance Logging System',
+      backHref: 'Notebook.dc.html', backLabel: 'All work',
+      kicker: 'CASE STUDY 02 · AKTAN MISR · AUG 2026 → NOW',
+      title: 'Factory log',
+      subtitle: 'Maintenance Logging System: breakdowns off paper, for 100 machines.',
+      lede: 'The factory tracked machine breakdowns on paper. I designed and rolled out a logging system for 100 machines and 17 technicians, with summaries that show where the downtime goes.',
+      heroNote: 'used on a real\nfactory floor',
+      stack: 'Google Sheets (data) · Google Apps Script (input forms and summaries) · built with Claude Code',
+      nextHref: 'CaseGame.dc.html', nextKicker: 'Next case study', nextLabel: '2-Player OpenGL Game'
+    },
+    facts: [
+      { label: 'My role', value: 'Designed it, directed the build, rolled it out' },
+      { label: 'Users', value: '17 technicians and the production manager; top management has access' },
+      { label: 'Scale', value: '100 machines' },
+      { label: 'Status', value: 'In trial, alongside the paper logs' }
+    ],
+    stats: [],
+    sections: [
+      { h: 'The problem', paras: ['With breakdowns on paper, there was no easy way to see which machines broke down most, how long repairs took, or how much downtime each department lost.'], note: 'paper cannot tell you\nwhich machine fails most' },
+      { h: 'What I built', paras: ['A shared log where every breakdown is one entry. The system builds summaries by department and by machine. Each entry records:'], chips: ['Breakdown type', 'Machine', 'Technician', 'Downtime', 'Repair time', 'Parts replaced', 'Open / closed'], note: 'one entry per breakdown' },
+      { h: 'Why Google Sheets', paras: ['It is free, and the team already knew spreadsheets. I tried Microsoft’s free tier first and it did not fit. I designed the system and directed the build; the code was written with Claude Code.'], note: 'tried Microsoft first:\nit did not fit' },
+      { h: 'Rolling it out', paras: ['The paper logs are still running alongside it during the trial period. I did not want to remove the old system before the new one had proven itself, because that change is hard to undo on a factory floor.'], note: 'paper logs kept\nrunning in parallel' },
+      { h: 'Related: choosing an ERP', paras: ['I also advise management on choosing an ERP. I reviewed three vendor proposals, asked vendors how they handle customizations, factory-specific workflows and on-premise hosting, and explained the difference between Odoo and ERPNext, including Odoo’s licensing. No decision has been made yet.'], note: '3 vendor proposals\nreviewed' }
+    ],
+    assets: [
+      { label: '[screenshot: the input form, technician names blurred]', rot: '-1.2deg' },
+      { label: '[screenshot: summary by department]', rot: '1deg' }
+    ]
+  };
+}
+componentDidMount() {
+  var self = this;
+  this.onR = function () { self.setState({ w: window.innerWidth }); };
+  window.addEventListener('resize', this.onR);
+  this.onR();
+}
+componentWillUnmount() { if (this.onR) window.removeEventListener('resize', this.onR); }
+renderVals() {
+  var s = this.state || {};
+  var c = this.content();
+  var dark = s.dark !== undefined ? s.dark : !!this.props.dark;
+  var w = s.w || 1440;
+  var wide = w >= 1100;
+  var ruled = function (col) { return 'repeating-linear-gradient(to bottom, transparent 0, transparent 26px, ' + col + ' 26px, ' + col + ' 27px, transparent 27px, transparent 36px)'; };
+  var fabric = 'repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(0,0,0,0.12) 0 1px, transparent 1px 3px)';
+  var t = dark ? {
+    desk: '#151416', deskImage: fabric, page: '#28272B', pageImage: 'linear-gradient(to right, rgba(0,0,0,0.35), rgba(0,0,0,0) 30px), ' + ruled('#4A4850'), headerImage: 'linear-gradient(to right, rgba(0,0,0,0.35), rgba(0,0,0,0) 30px)', print: '#A8A396', rule: '#6A6870',
+    text: '#EEE8D8', soft: '#CCC5B4', ink: '#AFC1FF', stitch: 'rgba(215,208,190,0.55)', sheetShadow: '0 30px 60px rgba(0,0,0,0.55)', tab: '#34333A', tabText: '#CCC5B4'
+  } : {
+    desk: '#2B2A2C', deskImage: fabric, page: '#F4EEDA', pageImage: 'linear-gradient(to right, rgba(0,0,0,0.08), rgba(0,0,0,0) 30px), ' + ruled('#9C978B'), headerImage: 'linear-gradient(to right, rgba(0,0,0,0.08), rgba(0,0,0,0) 30px)', print: '#6F6B62', rule: '#8F8A7E',
+    text: '#25231E', soft: '#4B473F', ink: '#1E2C8C', stitch: 'rgba(215,208,190,0.55)', sheetShadow: '0 30px 60px rgba(0,0,0,0.35)', tab: '#E3DAC0', tabText: '#4B473F'
+  };
+  var nameF = w < 760 ? Math.min(60, Math.floor(330 / (c.page.title.length * 0.63))) : 100;
+  var now = new Date();
+  var dayIdx = (now.getDay() + 6) % 7;
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  var tabs = [
+    { label: 'Home', href: 'Notebook.dc.html' },
+    { label: 'Work', href: 'Notebook.dc.html' },
+    { label: 'Projects', href: 'Projects.dc.html' },
+    { label: 'About', href: 'About.dc.html' }
+  ].map(function (tb) { var cur = tb.label === c.activeTab; return { label: tb.label, href: tb.href, current: cur ? 'page' : 'false', width: cur ? '48px' : '40px', bg: cur ? t.page : t.tab, color: cur ? t.ink : t.tabText }; });
+  var self = this;
+  return {
+    t: t,
+    page: c.page,
+    facts: c.facts.map(function (f) { return { label: f.label, value: f.value, href: f.href || '', isLink: !!f.href, isText: !f.href }; }),
+    stats: c.stats,
+    hasStats: c.stats.length > 0,
+    sections: c.sections.map(function (x) { return { h: x.h, paras: x.paras || [], list: x.list || [], hasList: !!(x.list && x.list.length), chips: x.chips || [], hasChips: !!(x.chips && x.chips.length), note: x.note || '' }; }),
+    assets: c.assets,
+    wide: wide,
+    secCols: w >= 900 ? 'minmax(0, 2fr) minmax(0, 1fr)' : 'minmax(0, 1fr)',
+    narrow: !wide,
+    headerPos: w >= 760 ? 'sticky' : 'relative',
+    nameSize: nameF + 'px',
+    nameShift: (44 - 0.2695 * nameF).toFixed(1) + 'px',
+    tabs: tabs,
+    days: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].map(function (d, i) { return { label: d, today: i === dayIdx }; }),
+    todayLabel: 'Today: ' + ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][dayIdx],
+    dateText: pad(now.getDate()) + '   /   ' + pad(now.getMonth() + 1) + '   /   ' + String(now.getFullYear()).slice(2),
+    isLight: !dark,
+    isDark: dark,
+    lightPressed: dark ? 'false' : 'true',
+    darkPressed: dark ? 'true' : 'false',
+    setLight: function () { self.setState({ dark: false }); },
+    setDark: function () { self.setState({ dark: true }); }
+  };
+}
+}
+</script>
+</body>
+</html>

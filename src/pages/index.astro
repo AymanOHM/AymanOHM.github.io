@@ -18,20 +18,20 @@ const buildPct = Math.min(1, Math.max(0, (Date.now() - Date.parse(trackStart)) /
 ---
 <Notebook
   title="Ayman Osama Hassan, backend engineer"
-  description="Ayman Osama Hassan builds backends that stay fast when the work is slow: job queues, background workers and the deployment around them. New Cairo, Egypt."
+  description="Ayman Osama Hassan, backend engineer training in DevSecOps. Job queues, background workers and deployment in Python and Django. New Cairo, Egypt."
   memo="01" tabs={tabs} tabsLabel="Sections" home path="/">
 
   <main id="content" class="home">
     <section data-sec="1" aria-label="Introduction" class="hero">
       <h1 class="hero__name hand"><span>Ayman Osama</span><span class="hero__name2">Hassan</span></h1>
       <div class="hero__left">
-        <p class="hero__claim">I build <span class="annotated">backends<svg class="anno" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none" style="left:-16px;top:-12px;width:calc(100% + 32px);height:calc(100% + 22px);--dur:900ms;--delay:500ms"><path d={CIRCLE} pathLength="1" /></svg></span> that stay fast when the work is slow: job queues, background workers and the deployment around them.</p>
+        <p class="hero__claim">I am a <span class="annotated">backend<svg class="anno" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none" style="left:-16px;top:-12px;width:calc(100% + 32px);height:calc(100% + 22px);--dur:900ms;--delay:500ms"><path d={CIRCLE} pathLength="1" /></svg></span> engineer, training in DevSecOps. I build job queues, background workers and the deployment around them.</p>
         <div class="hero__cta">
           <a class="btn-primary" href="/cv/Ayman_Osama_Hassan_CV.pdf" download>Download CV (PDF)<Icon name="arrow" /></a>
           <a class="tlink" href="https://github.com/AymanOHM">GitHub</a>
           <a class="tlink" href="https://www.linkedin.com/in/aymanohm">LinkedIn</a>
         </div>
-        <p class="body hero__para">Python and Django are home. I graduated in Computer and Automatic Control Engineering from Tanta University in 2026 with Excellent (90%), spent years on ICPC in C++, and now set problems for the Tanta University ICPC Community.</p>
+        <p class="body hero__para">I graduated in Computer and Automatic Control Engineering from Tanta University in 2026. I competed in ICPC in C++ for several years and now set problems for the Tanta University ICPC Community.</p>
       </div>
 
       <figure class="demo insert insert--graph" data-demo aria-label="Interactive demo: a request without a queue versus with Ayman's pipeline">
@@ -59,7 +59,7 @@ const buildPct = Math.min(1, Math.max(0, (Date.now() - Date.parse(trackStart)) /
           <button type="button" class="btn-text" data-run-fail>What if the AI fails?</button>
         </div>
         <span class="vh" aria-live="polite" data-live></span>
-        <figcaption class="demo__caption">Real setup: Django REST, Redis, Celery, PostgreSQL. Failed AI calls retry 3 times, 30 s apart; anything that still fails is logged, and the rest is kept.</figcaption>
+        <figcaption class="demo__caption">Built with Django REST, Redis, Celery and PostgreSQL. Failed AI calls retry 3 times, 30 s apart; anything that still fails is logged, and the rest is kept.</figcaption>
       </figure>
     </section>
 
@@ -67,45 +67,40 @@ const buildPct = Math.min(1, Math.max(0, (Date.now() - Date.parse(trackStart)) /
       <h2 id="h-work" class="h2 h2--home">Selected work</h2>
 
       <article class="work-row">
-        <div class="meta">Graduation project<br />6-person team<br />Graded Excellent, full marks</div>
+        <div class="meta">Graduation project<br />Team of 6</div>
         <div class="work-row__main">
           <h3 class="h3">Soual: AI Question Generator</h3>
-          <p class="body">A slow AI model behind a fast API. Requests get an answer right away; a background worker makes the AI call, retries when it fails, and saves partial results instead of losing everything.</p>
+          <p class="body">The backend of an AI question generator. A job queue and worker keep the API fast, retry failed AI calls and keep partial results.</p>
           <div class="meta">Django REST · Celery · Redis · PostgreSQL · Docker · Railway</div>
           <a class="arrow-link" href="/work/soual/"><span>Read the case study</span><Icon name="arrow" /><span class="vh">: Soual</span></a>
         </div>
-        <div class="note work-row__note">graded <span class="annotated">Excellent<svg class="anno" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none" style="left:-8px;top:-4px;width:calc(100% + 16px);height:calc(100% + 8px);--dur:800ms;--delay:200ms"><path d={CIRCLE} pathLength="1" /></svg></span>, full marks<br />I built the queue, worker and deploy</div>
-      </article>
+</article>
 
       <article class="work-row">
-        <div class="meta">Aug 2026 → now<br />Aktan Misr Textile<br />In use, trial period</div>
+        <div class="meta">Aug 2026 → now<br />Aktan Misr Textile<br />In trial</div>
         <div class="work-row__main">
           <h3 class="h3">Maintenance Logging System</h3>
-          <p class="body">A breakdown log for a textile factory floor: <span class="annotated">100 machines, 17 technicians<svg class="anno" aria-hidden="true" viewBox="0 0 100 20" preserveAspectRatio="none" style="left:0;bottom:-6px;width:100%;height:10px;--dur:700ms;--delay:500ms"><path d="M1 12 C 25 6, 55 16, 99 8" pathLength="1" /></svg></span>, and summaries that show which machines break down most and how much downtime each department loses.</p>
+          <p class="body">A breakdown log for <span class="annotated">100 machines and 17 technicians<svg class="anno" aria-hidden="true" viewBox="0 0 100 20" preserveAspectRatio="none" style="left:0;bottom:-6px;width:100%;height:10px;--dur:700ms;--delay:500ms"><path d="M1 12 C 25 6, 55 16, 99 8" pathLength="1" /></svg></span> in a textile factory, with summaries of which machines break down most and how much downtime each department loses.</p>
           <div class="meta">Internal tools · Google Sheets · Apps Script · rollout</div>
           <a class="arrow-link" href="/work/maintenance-log/"><span>Read the case study</span><Icon name="arrow" /><span class="vh">: Maintenance Logging System</span></a>
         </div>
-        <div class="note work-row__note"><span class="strike">Microsoft free tier</span><br /><Icon name="arrow" width={34} height={16} style="vertical-align:-1px;margin-right:6px" />Google Sheets<br />paper logs kept running in parallel</div>
-      </article>
+</article>
 
       <article class="work-row">
         <div class="meta">Computer graphics course<br />Team project</div>
         <div class="work-row__main">
           <h3 class="h3">2-Player OpenGL Game</h3>
-          <p class="body">A two-player platformer with no game engine. I wrote most of it: collision detection, wall jumps and friction, input for two players, sprite animation and the game-state machine.</p>
+          <p class="body">A two-player platformer with no game engine. I wrote the collision detection, wall jumps and friction, input for two players, sprite animation and the game-state machine.</p>
           <div class="meta">Python · PyOpenGL</div>
           <a class="arrow-link" href="/work/opengl-game/"><span>Read the case study</span><Icon name="arrow" /><span class="vh">: 2-Player OpenGL Game</span></a>
         </div>
-        <div class="note work-row__note work-row__note--bracket">
-          <svg class="anno" aria-hidden="true" viewBox="0 0 20 100" preserveAspectRatio="none" style="left:0;top:40px;width:14px;height:64px;--dur:700ms;--delay:1200ms"><path d="M16 2 C 4 4, 8 30, 6 48 C 5 52, 1 50, 1 52 C 1 54, 5 52, 6 56 C 8 72, 4 96, 16 98" pathLength="1" /></svg>
-          no engine,<br />just math and Python</div>
-      </article>
+</article>
 
       <article class="work-row work-row--last">
-        <div class="meta">Feb 2024 → Jul 2026<br />~63-member team<br />1st Concept Class, 3rd overall</div>
+        <div class="meta">Feb 2024 → Jul 2026<br />About 63 members<br />1st Concept Class, 3rd overall</div>
         <div class="work-row__main">
           <h3 class="h3">T-Racers Formula Student</h3>
-          <p class="body">I chose the ECU and sensors for our concept-class race car, drew its pinout and wrote the electrical documentation. I also prepared the materials for the Project Management event, where we placed 1st overall.</p>
+          <p class="body">I chose the ECU and sensors for our concept-class race car, produced its pinout and wrote the electrical documentation. I also prepared the materials for the Project Management event, where we placed 1st overall.</p>
           <div class="meta">Haltech Nexus R3 · sensors · wiring · documentation</div>
           <a class="arrow-link" href="/work/t-racers/"><span>Read the case study</span><Icon name="arrow" /><span class="vh">: T-Racers Formula Student</span></a>
         </div>
@@ -114,17 +109,17 @@ const buildPct = Math.min(1, Math.max(0, (Date.now() - Date.parse(trackStart)) /
             <span class="tape" aria-hidden="true" style="top:-10px;left:64px;width:70px;height:22px;transform:rotate(-4deg)"></span>
             <img src="/img/tracers-team-small.webp" alt="The T-Racers team, about thirty members, posing on the steps outside a building" width="180" height="102" loading="lazy" decoding="async" />
           </figure>
-          <div class="note" style="font-size:24px">Silverstone 2026:<br />1st in Concept Class<br />3rd overall</div>
+          <div class="note" style="font-size:24px">Silverstone, July 2026</div>
         </div>
       </article>
 
-      <div class="more-link"><a href="/projects/"><span>More projects: crowdfunding platform, TCP chat, CPU scheduler, app store</span><Icon name="arrow" /></a></div>
+      <div class="more-link"><a href="/projects/"><span>More projects</span><Icon name="arrow" /></a></div>
     </section>
 
     <section data-sec="3" id="learning" aria-labelledby="h-learning" class="home-sec learning">
       <div class="learning__left">
         <h2 id="h-learning" class="h2 h2--home">Currently learning</h2>
-        <p class="body" style="margin-bottom:36px">The NTI Professional DevSecOps track: 420 hours, from 17 October 2026 to February 2027. It is the other half of backend work, getting code built, shipped and secured. Projects from the track land here as I finish them.</p>
+        <p class="body" style="margin-bottom:36px">I am in NTI’s Professional DevSecOps track, 420 hours from 17 October 2026 to February 2027.</p>
         <div class="timeline" data-timeline data-start={trackStart} data-end={trackEnd} style={`--pct:${buildPct.toFixed(4)}`}>
           <div class="timeline__dates"><span>17 Oct 2026</span><span>Feb 2027</span></div>
           <svg class="timeline__line" aria-hidden="true" viewBox="0 0 100 10" preserveAspectRatio="none">
@@ -140,7 +135,6 @@ const buildPct = Math.min(1, Math.max(0, (Date.now() - Date.parse(trackStart)) /
         <ul class="checklist" aria-label="Track topics, none completed yet">
           {topics.map((t) => <li><span class="box" aria-hidden="true"></span>{t}</li>)}
         </ul>
-        <div class="note" style="font-size:24px;padding-top:36px;transform:rotate(-1.5deg);transform-origin:left">a box gets ticked when there is a project to show for it</div>
       </div>
     </section>
 

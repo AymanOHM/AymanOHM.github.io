@@ -156,7 +156,7 @@ if (demo) {
     fail ? { st: 3, you: WAIT_B, job: 'retry worked for most · one question type still fails, logged' }
          : { st: 3, you: WAIT_B, job: 'worker saves the questions to PostgreSQL' },
     fail ? { st: 4, done: true, you: 'Most questions are ready; the log says what failed.', job: 'COMPLETED_WITH_ERRORS' }
-         : { st: 4, done: true, you: 'Questions ready. You never stared at a spinner.', job: 'COMPLETED' },
+         : { st: 4, done: true, you: 'Questions are ready. You did not have to wait on the page.', job: 'COMPLETED' },
   ];
 
   let timer: number | undefined;

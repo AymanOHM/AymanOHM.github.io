@@ -1,14 +1,14 @@
 ---
 import Icon from './Icon.astro';
 import { phoneTitle } from '../data/pages';
-interface Props { backHref: string; backLabel: string; kicker: string; title: string; subtitle: string; lede: string; heroNote: string; titleDesk?: number; notePad?: number }
-const { backHref, backLabel, kicker, title, subtitle, lede, heroNote, titleDesk = 100, notePad } = Astro.props;
+interface Props { backHref: string; backLabel: string; kicker: string; title: string; subtitle: string; lede: string; heroNote: string; titleDesk?: number; titleWrap?: boolean; notePad?: number }
+const { backHref, backLabel, kicker, title, subtitle, lede, heroNote, titleDesk = 100, titleWrap = false, notePad } = Astro.props;
 ---
 <a class="back-link" href={backHref}><Icon name="arrow-left" /><span>{backLabel}</span></a>
 <div class="cols sub-hero">
   <div style="min-width:0">
     <div class="kicker">{kicker}</div>
-    <h1 class="sub-title" style={`--t-desk:${titleDesk}px;--t-phone:${phoneTitle(title)}px`}>{title}</h1>
+    <h1 class={`sub-title${titleWrap ? ' sub-title--wrap' : ''}`} style={`--t-desk:${titleDesk}px;--t-phone:${phoneTitle(title, titleWrap)}px`}>{title}</h1>
     <p class="subtitle">{subtitle}</p>
     <p class="body">{lede}</p>
     <slot />

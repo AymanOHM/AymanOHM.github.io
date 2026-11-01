@@ -13,9 +13,9 @@ const steps = [
   'The client polls the request until it is done, then fetches the questions.',
 ];
 const failures = [
-  { title: 'Retries', code: '3 attempts · 30 s apart', text: 'Short outages are absorbed instead of failing the whole request.' },
-  { title: 'Batching', code: '≤ 10 questions per AI call', text: 'Each call stays bounded, so a failure loses less work.' },
-  { title: 'Partial success', code: 'COMPLETED_WITH_ERRORS', text: 'Some question types can fail while others succeed. The request still finishes, and the stored error log says what failed.' },
+  { title: 'Retries', code: '3 attempts · 30 s apart', text: 'Short outages do not fail the whole request.' },
+  { title: 'Batching', code: '≤ 10 questions per AI call', text: 'A failure loses less work.' },
+  { title: 'Partial success', code: 'COMPLETED_WITH_ERRORS', text: 'Some question types can fail while others succeed. The request still finishes and the error log says what failed.' },
 ];
 const containers = ['Gunicorn web', 'Celery worker', 'PostgreSQL 15', 'Redis 7'];
 const ARROW = 'M2 8 H 40 M33 3 L 40 8 L 33 13';
@@ -23,14 +23,13 @@ const ARROW = 'M2 8 H 40 M33 3 L 40 8 L 33 13';
 <Notebook title="Soual: AI question generator, case study · Ayman Osama Hassan" description="How a slow AI model sits behind a fast API: a Django REST, Redis and Celery job pipeline with retries, batching and partial success, deployed on Railway." memo="05" tabs={siteTabs('Work')} tabsLabel="Site">
   <main id="content" class="sub-main">
     <SubHero backHref="/#work" backLabel="All work" kicker="CASE STUDY 01 · GRADUATION PROJECT · 2026" title="Soual"
-      subtitle="An AI question generator, and the pipeline that keeps it fast."
-      lede="Soual writes exam-prep questions (multiple choice, true/false and short answer) for Egyptian secondary-school students, in the style of the new Thanaweya Amma exam. My job was the part that lets a slow AI model sit behind a fast API."
+      subtitle="Backend for an AI exam-question generator."
+      lede="Soual writes exam-prep questions (multiple choice, true/false and short answer) for Egyptian secondary-school students, in the style of the new Thanaweya Amma exam."
       heroNote="soual means question, in Arabic" notePad={72} />
 
     <dl class="facts">
-      <div><dt class="label">My role</dt><dd>Job pipeline, Docker setup, Railway deployment</dd></div>
-      <div><dt class="label">Team</dt><dd>6 people: 2 backend, 2 AI, 1 data preprocessing, 1 frontend</dd></div>
-      <div><dt class="label">Result</dt><dd>Graded Excellent, full marks</dd></div>
+      <div><dt class="label">Team</dt><dd>6 people: 2 backend (including me), 2 AI, 1 data preprocessing, 1 frontend. I reviewed my backend teammate’s modules.</dd></div>
+      <div><dt class="label">Grade</dt><dd>Excellent</dd></div>
       <div><dt class="label">Code</dt><dd><a href="https://github.com/AI-Question-Generator/grad-project-backend">Backend repo on GitHub</a></dd></div>
     </dl>
     <div class="meta">Django REST Framework · Celery · Redis · PostgreSQL · Docker Compose · Railway</div>
@@ -38,14 +37,13 @@ const ARROW = 'M2 8 H 40 M33 3 L 40 8 L 33 13';
     <section class="cols sec" aria-labelledby="h-problem">
       <div style="min-width:0">
         <h2 id="h-problem" class="h2">The problem</h2>
-        <p class="body--text" style="margin:0">The questions come from an AI model that the AI team hosted on Kaggle, and that model was slow. If the API waited for it inside the request, every user would sit on an open request for the whole model run, and one slow call could tie up the web server.</p>
+        <p class="body--text" style="margin:0">The AI team hosted the model on Kaggle, and it was slow. If the API waited for it inside the request, each user would hold a connection open for the whole model run, and one slow call could tie up the web server.</p>
       </div>
-      <div class="note problem-note">the model is slow.<br />the API does not have to be.</div>
     </section>
 
     <section class="sec" aria-labelledby="h-built">
       <h2 id="h-built" class="h2">What I built</h2>
-      <p class="body--text" style="margin:0;max-width:760px">A job pipeline that moves the AI call out of the request:</p>
+      <p class="body--text" style="margin:0;max-width:760px">I built the job pipeline (Redis queue, Celery worker, retries, batching, partial success), the Docker Compose setup and the Railway deployment. The pipeline moves the AI call out of the request.</p>
       <ol class="steps">
         {steps.map((s, i) => <li><span class="steps__n" aria-hidden="true">{i + 1}</span><span><span class="vh">{i + 1}. </span>{s}</span></li>)}
       </ol>
@@ -71,13 +69,13 @@ const ARROW = 'M2 8 H 40 M33 3 L 40 8 L 33 13';
             <div class="diagram__note" style="grid-column:1 / 4">client polls the status, then fetches the questions</div>
           </div>
         </div>
-        <figcaption class="diagram__cap">Fig. 1. Ringed in ink: the parts I built. The API never waits on the AI; it records the request, queues it and answers 202 straight away.</figcaption>
+        <figcaption class="diagram__cap">Fig. 1. The API records the request, queues it and answers 202 straight away.</figcaption>
       </figure>
     </section>
 
     <section class="sec" aria-labelledby="h-fail">
       <h2 id="h-fail" class="h2">Handling failure</h2>
-      <p class="body--text" style="margin:0 0 36px;max-width:760px">The AI service could fail partway through, so I made the worker tolerate that.</p>
+      <p class="body--text" style="margin:0 0 36px;max-width:760px">The AI service can fail partway through, so the worker is built to tolerate that.</p>
       <div class="three">
         {failures.map((f) => (
           <div style="min-width:0">
@@ -94,22 +92,13 @@ const ARROW = 'M2 8 H 40 M33 3 L 40 8 L 33 13';
       <div class="two">
         <div style="min-width:0">
           <h3 class="label h-label">Local · Docker Compose</h3>
-          <p class="body--text" style="margin:0">Four containers for development:</p>
+          <p class="body--text" style="margin:0">Four containers for development.</p>
           <div class="chips">{containers.map((c) => <span class="chip">{c}</span>)}</div>
         </div>
         <div style="min-width:0">
           <h3 class="label h-label">Live · Railway</h3>
-          <p class="body--text" style="margin:0">Deployed for the live graduation defense. The web server and the worker run as separate services, with the worker pointed at Railway’s Redis instead of localhost.</p>
+          <p class="body--text" style="margin:0">Deployed for the live graduation defense. The web server and the worker run as separate services, and the worker uses Railway’s Redis.</p>
         </div>
-      </div>
-    </section>
-
-    <section class="sec" aria-labelledby="h-team">
-      <h2 id="h-team" class="h2">My part and the team’s</h2>
-      <div class="three">
-        <div style="min-width:0"><h3 class="label h-label">Mine</h3><p class="fail__text">The job pipeline, the Docker setup and the Railway deployment. I also reviewed my backend teammate’s modules.</p></div>
-        <div style="min-width:0"><h3 class="label h-label">Together</h3><p class="fail__text">The two of us on the backend designed the architecture together.</p></div>
-        <div style="min-width:0"><h3 class="label h-label">Teammates</h3><p class="fail__text">User management and PDF lesson ingestion (backend teammate). The AI model and its pipeline (AI team). Data preprocessing. The frontend.</p></div>
       </div>
     </section>
 

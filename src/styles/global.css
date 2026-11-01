@@ -358,6 +358,7 @@ html.js [data-sec]:not(.seen) .anno path { stroke-dashoffset: 1; }
   --tsize: var(--t-desk, 100px);
 }
 @media (max-width: 759px) { .sub-title { --tsize: var(--t-phone, 60px); } }
+.sub-title--wrap { white-space: normal; }
 .subtitle { margin: 0 0 36px; font-size: 30px; line-height: 36px; font-weight: 500; letter-spacing: -.01em; text-wrap: balance; }
 .hero-note { padding-top: 180px; }
 @media (max-width: 899px) { .hero-note { padding-top: 36px; } }

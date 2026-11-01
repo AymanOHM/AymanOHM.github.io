@@ -1,0 +1,13 @@
+---
+import type { Fact } from '../data/pages';
+interface Props { items: Fact[] }
+const { items } = Astro.props;
+---
+<aside class="insert index-card" aria-label="Project summary">
+  <span class="tape" aria-hidden="true" style="top:-11px;left:36px;width:84px;height:22px;transform:rotate(-4deg)"></span>
+  <dl>
+    {items.map((f) => (
+      <div class="index-card__row"><dt>{f.label}</dt><dd>{f.href ? <a href={f.href}>{f.value}</a> : f.value}</dd></div>
+    ))}
+  </dl>
+</aside>

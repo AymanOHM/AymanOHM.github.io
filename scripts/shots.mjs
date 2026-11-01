@@ -47,6 +47,12 @@ for (const theme of themes) {
     for (const [name, path] of pages) {
       await page.goto(base + path, { waitUntil: 'networkidle' });
       await page.evaluate(() => document.fonts.ready);
+      // Lazy images below the fold never load in a full-page capture, so load them first.
+      await page.evaluate(async () => {
+        const imgs = [...document.images];
+        imgs.forEach((i) => { i.loading = 'eager'; });
+        await Promise.all(imgs.map((i) => i.decode().catch(() => {})));
+      });
       await page.waitForTimeout(300);
       await page.screenshot({ path: `${outDir}/${name}-${w}-${theme}.png`, fullPage: true });
       count++;

@@ -3,9 +3,9 @@ import Notebook from '../layouts/Notebook.astro';
 import SubHero from '../components/SubHero.astro';
 import NextNav from '../components/NextNav.astro';
 import Icon from '../components/Icon.astro';
-import { projects as p, siteTabs } from '../data/pages';
+import { projects as p, siteTabs, siteStripTabs } from '../data/pages';
 ---
-<Notebook title="Other projects · Ayman Osama Hassan" description="Smaller builds: a Django crowdfunding platform, a threaded TCP chat, a CPU scheduling simulator and an app store front end." memo={p.memo} tabs={siteTabs('Projects')} tabsLabel="Site">
+<Notebook title="Other projects · Ayman Osama Hassan" description="Smaller builds: a Django crowdfunding platform, a threaded TCP chat, a CPU scheduling simulator and an app store front end." memo={p.memo} tabs={siteTabs('Projects')} stripTabs={siteStripTabs('Projects')} tabsLabel="Site">
   <main id="content" class="sub-main">
     <SubHero backHref="/" backLabel="Home" kicker={p.kicker} title={p.title} subtitle={p.subtitle} lede={p.lede} heroNote={p.heroNote} titleDesk={92} />
     {p.items.map((s) => (

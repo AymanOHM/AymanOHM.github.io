@@ -3,7 +3,16 @@ import Notebook from '../../layouts/Notebook.astro';
 import SubHero from '../../components/SubHero.astro';
 import Shot from '../../components/Shot.astro';
 import NextNav from '../../components/NextNav.astro';
-import { siteTabs } from '../../data/pages';
+import IndexCard from '../../components/IndexCard.astro';
+import { siteTabs, siteStripTabs } from '../../data/pages';
+
+const card = [
+  { label: 'Role', value: 'Built the job pipeline (Redis queue, Celery worker, retries, batching, partial success), the Docker Compose setup and the Railway deployment.' },
+  { label: 'Team', value: '6 people: 2 backend (including me), 2 AI, 1 data preprocessing, 1 frontend. I reviewed my backend teammate’s modules.' },
+  { label: 'Stack', value: 'Django REST Framework, Celery, Redis, PostgreSQL, Docker Compose, Railway' },
+  { label: 'Outcome', value: 'Grade: Excellent' },
+  { label: 'Code', value: 'Backend repo on GitHub', href: 'https://github.com/AI-Question-Generator/grad-project-backend' },
+];
 
 const steps = [
   'The client sends a generation request. The API saves it to PostgreSQL with status PENDING and returns 202 Accepted right away.',
@@ -20,19 +29,14 @@ const failures = [
 const containers = ['Gunicorn web', 'Celery worker', 'PostgreSQL 15', 'Redis 7'];
 const ARROW = 'M2 8 H 40 M33 3 L 40 8 L 33 13';
 ---
-<Notebook title="Soual: AI question generator, case study · Ayman Osama Hassan" description="How a slow AI model sits behind a fast API: a Django REST, Redis and Celery job pipeline with retries, batching and partial success, deployed on Railway." memo="05" tabs={siteTabs('Work')} tabsLabel="Site">
+<Notebook title="Soual: AI question generator, case study · Ayman Osama Hassan" description="How a slow AI model sits behind a fast API: a Django REST, Redis and Celery job pipeline with retries, batching and partial success, deployed on Railway." memo="05" tabs={siteTabs('Work')} stripTabs={siteStripTabs('Work')} tabsLabel="Site">
   <main id="content" class="sub-main">
     <SubHero backHref="/#work" backLabel="All work" kicker="CASE STUDY 01 · GRADUATION PROJECT · 2026" title="Soual"
       subtitle="Backend for an AI exam-question generator."
       lede="Soual writes exam-prep questions (multiple choice, true/false and short answer) for Egyptian secondary-school students, in the style of the new Thanaweya Amma exam."
       heroNote="soual means question, in Arabic" notePad={72} />
 
-    <dl class="facts">
-      <div><dt class="label">Team</dt><dd>6 people: 2 backend (including me), 2 AI, 1 data preprocessing, 1 frontend. I reviewed my backend teammate’s modules.</dd></div>
-      <div><dt class="label">Grade</dt><dd>Excellent</dd></div>
-      <div><dt class="label">Code</dt><dd><a href="https://github.com/AI-Question-Generator/grad-project-backend">Backend repo on GitHub</a></dd></div>
-    </dl>
-    <div class="meta">Django REST Framework · Celery · Redis · PostgreSQL · Docker Compose · Railway</div>
+    <IndexCard items={card} />
 
     <section class="cols sec" aria-labelledby="h-problem">
       <div style="min-width:0">
@@ -43,7 +47,7 @@ const ARROW = 'M2 8 H 40 M33 3 L 40 8 L 33 13';
 
     <section class="sec" aria-labelledby="h-built">
       <h2 id="h-built" class="h2">What I built</h2>
-      <p class="body--text" style="margin:0;max-width:760px">I built the job pipeline (Redis queue, Celery worker, retries, batching, partial success), the Docker Compose setup and the Railway deployment. The pipeline moves the AI call out of the request.</p>
+      <p class="body--text" style="margin:0;max-width:760px">The job pipeline moves the AI call out of the request.</p>
       <ol class="steps">
         {steps.map((s, i) => <li><span class="steps__n" aria-hidden="true">{i + 1}</span><span><span class="vh">{i + 1}. </span>{s}</span></li>)}
       </ol>
@@ -66,7 +70,6 @@ const ARROW = 'M2 8 H 40 M33 3 L 40 8 L 33 13';
             <div class="vline" style="grid-column:3"><span></span></div>
             <div class="vline vline--ink" style="grid-column:7"><span></span></div>
             <div class="node node--db" style="grid-column:3 / 8">PostgreSQL · request status: PENDING → PROCESSING → COMPLETED / COMPLETED_WITH_ERRORS</div>
-            <div class="diagram__note" style="grid-column:1 / 4">client polls the status, then fetches the questions</div>
           </div>
         </div>
         <figcaption class="diagram__cap">Fig. 1. The API records the request, queues it and answers 202 straight away.</figcaption>
@@ -103,7 +106,7 @@ const ARROW = 'M2 8 H 40 M33 3 L 40 8 L 33 13';
     </section>
 
     <section class="shots" aria-label="Screenshots" style="padding-top:72px">
-      <Shot asset={{ src: '/img/soual-landing.webp', alt: 'Soual’s Arabic landing page: a headline about turning content into smart, interactive questions, a sample physics question card and a PDF-to-questions progress card', caption: 'Soual’s landing page', rot: '-1.2deg' }} tapeLeft="42%" />
+      <Shot asset={{ src: '/img/soual-landing.webp', alt: 'Soual’s Arabic landing page: a headline about turning content into smart, interactive questions, a sample physics question card and a PDF-to-questions progress card', caption: 'Soual’s landing page', rot: '-1.2deg', w: 1320, h: 736 }} tapeLeft="42%" />
     </section>
 
     <NextNav href="/work/maintenance-log/" kicker="Next case study" label="Maintenance Logging System" />

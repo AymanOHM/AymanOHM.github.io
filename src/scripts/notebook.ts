@@ -105,6 +105,11 @@ document.querySelectorAll<HTMLElement>('[data-timeline]').forEach((el) => {
   const end = new Date(el.dataset.end + 'T00:00:00').getTime();
   const pct = Math.min(1, Math.max(0, (Date.now() - start) / (end - start)));
   el.style.setProperty('--pct', pct.toFixed(4));
+  el.classList.toggle('is-late', pct > 0.6);
+  const weeks = Number(el.dataset.weeks || 18);
+  const week = Math.min(weeks, Math.max(1, Math.floor((Date.now() - start) / 604800000) + 1));
+  const label = el.querySelector('[data-today]');
+  if (label) label.textContent = `today, week ${week} of ${weeks}`;
 });
 
 /* ---------- Videos: play only when motion is welcome ---------- */

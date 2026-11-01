@@ -1,8 +1,8 @@
 ---
 import Icon from './Icon.astro';
-import { phoneTitle } from '../data/pages';
-interface Props { backHref: string; backLabel: string; kicker: string; title: string; subtitle: string; lede: string; heroNote: string; titleDesk?: number; titleWrap?: boolean; notePad?: number }
-const { backHref, backLabel, kicker, title, subtitle, lede, heroNote, titleDesk = 100, titleWrap = false, notePad } = Astro.props;
+import { phoneTitle, marked } from '../data/pages';
+interface Props { backHref: string; backLabel: string; kicker: string; title: string; subtitle: string; lede: string; heroNote: string; heroSticky?: string; titleDesk?: number; titleWrap?: boolean; notePad?: number }
+const { backHref, backLabel, kicker, title, subtitle, lede, heroNote, heroSticky, titleDesk = 100, titleWrap = false, notePad } = Astro.props;
 ---
 <a class="back-link" href={backHref}><Icon name="arrow-left" /><span>{backLabel}</span></a>
 <div class="cols sub-hero">
@@ -10,8 +10,10 @@ const { backHref, backLabel, kicker, title, subtitle, lede, heroNote, titleDesk 
     <div class="kicker">{kicker}</div>
     <h1 class={`sub-title${titleWrap ? ' sub-title--wrap' : ''}`} style={`--t-desk:${titleDesk}px;--t-phone:${phoneTitle(title, titleWrap)}px`}>{title}</h1>
     <p class="subtitle">{subtitle}</p>
-    <p class="body">{lede}</p>
+    <p class="body" set:html={marked(lede)} />
     <slot />
   </div>
-  <div class="note note--tilt hero-note" style={notePad !== undefined ? `padding-top:${notePad}px` : undefined}>{heroNote}</div>
+  {heroSticky
+    ? <div class="hero-note"><div class="sticky" role="img" aria-label={`Final grade: ${heroSticky}`}><span aria-hidden="true">{heroSticky}</span></div></div>
+    : <div class="note note--tilt hero-note" style={notePad !== undefined ? `padding-top:${notePad}px` : undefined}>{heroNote}</div>}
 </div>

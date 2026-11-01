@@ -8,11 +8,12 @@ interface Props {
   description: string;
   memo: string;
   tabs: Tab[];
+  stripTabs?: Tab[];
   tabsLabel: string;
   home?: boolean;
   path?: string;
 }
-const { title, description, memo, tabs, tabsLabel, home = false, path = Astro.url.pathname } = Astro.props;
+const { title, description, memo, tabs, stripTabs = tabs, tabsLabel, home = false, path = Astro.url.pathname } = Astro.props;
 const canonical = new URL(path, Astro.site).href;
 const currentAttr = home ? 'true' : 'page';
 
@@ -64,6 +65,7 @@ const dateText = `${pad(now.getDate())}   /   ${pad(now.getMonth() + 1)}   /   $
       <header class="nb-header" data-compactable={home ? '' : undefined}>
         <div class="nb-header__inner">
           <div class="hdr-row">
+            <a class="hdr-name" href="/">Ayman Osama Hassan</a>
             <div class="hdr-left">
               <div class="theme-group" role="group" aria-label="Theme">
                 <button type="button" class="theme-btn" data-set-theme="light" aria-label="Light theme" aria-pressed="true" title="Light theme">
@@ -89,7 +91,7 @@ const dateText = `${pad(now.getDate())}   /   ${pad(now.getMonth() + 1)}   /   $
       </header>
 
       <nav class="tabs-strip" aria-label={tabsLabel}>
-        {tabs.map((t) => <a href={t.href} aria-current={t.current ? currentAttr : undefined} data-tab={t.label}>{t.label}</a>)}
+        {stripTabs.map((t) => <a href={t.href} aria-current={t.current ? currentAttr : undefined} data-tab={t.label}>{t.label}</a>)}
       </nav>
 
       <slot />

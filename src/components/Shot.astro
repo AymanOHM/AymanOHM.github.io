@@ -6,15 +6,15 @@ const { asset: a, tapeLeft = '40%' } = Astro.props;
 <figure class="insert photo" style={`transform:rotate(${a.rot});margin:0`}>
   <span class="tape" aria-hidden="true" style={`top:-10px;left:${tapeLeft};width:80px;height:22px;transform:rotate(-3deg)`}></span>
   {a.kind === 'video' ? (
-    <div class="photo__frame">
+    <div class="photo__frame" style={`aspect-ratio:${a.w}/${a.h}`}>
       <video data-autoplay muted loop playsinline preload="metadata" poster={a.poster} aria-label={a.alt} style="image-rendering:pixelated">
         {a.webm && <source src={a.webm} type="video/webm" />}
         <source src={a.src} type="video/mp4" />
       </video>
     </div>
   ) : (
-    <a class="photo__frame" href={a.src} title="Open full size">
-      <img src={a.src} alt={a.alt} loading="lazy" decoding="async" style={a.kind === 'pixel' ? 'image-rendering:pixelated' : undefined} />
+    <a class="photo__frame" href={a.src} title="Open full size" style={`aspect-ratio:${a.w}/${a.h}`}>
+      <img src={a.src} alt={a.alt} width={a.w} height={a.h} loading="lazy" decoding="async" style={a.kind === 'pixel' ? 'image-rendering:pixelated' : undefined} />
     </a>
   )}
   <figcaption>{a.caption}</figcaption>

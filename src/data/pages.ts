@@ -84,7 +84,7 @@ export const maintenance: CasePage = {
     { h: 'What it records', paras: ['A shared log with one entry per breakdown, summarized by department and by machine. Each entry records these fields.'], chips: ['Breakdown type', 'Machine', 'Technician', 'Downtime', 'Repair time', 'Parts replaced', 'Open / closed'], note: '' },
     { h: 'Why Google Sheets', paras: ['It is free, and the team already knew spreadsheets. Microsoft’s free tier did not fit.'], note: '' },
     { h: 'Rolling it out', paras: ['The paper logs still run alongside it during the trial period. Replacing the old system before the new one has proven itself would be hard to undo on a factory floor.'], note: '' },
-    { h: 'Also', paras: ['I advise management on choosing an ERP and reviewed three vendor proposals.'], note: '' },
+    { h: 'Also', paras: ['I advise management on choosing an ERP and reviewed three vendor proposals.'], note: 'one vendor demo felt too\ngeneric, little textile experience' },
   ],
   // Shown only once the file exists in public/ (the build never ships an empty slot).
   assets: [
@@ -146,7 +146,7 @@ export const racing: CasePage = {
     { big: '3rd', label: 'Business Plan' },
   ],
   sections: [
-    { h: 'My work', list: ['Selected the ECU and the sensor suite from supplier catalogs.', 'Produced the ECU pinout and connection plan.', 'Contributed to the 2D wiring diagrams and wrote the electrical-system documentation.', 'Prepared the documentation and presentation materials for the Project Management event.'], note: '' },
+    { h: 'My work', list: ['Selected the ECU and the sensor suite from supplier catalogs.', 'Produced the ECU pinout and connection plan.', 'Contributed to the 2D wiring diagrams and wrote the electrical-system documentation.', 'Prepared the documentation and presentation materials for the Project Management event.'], note: 'I also completed\nembedded-C workshops' },
     { h: 'Team results', paras: ['We were the first Egyptian team to reach the Business Plan final.'], note: '' },
   ],
   assets: [
@@ -189,8 +189,8 @@ export const projects = {
   lede: 'A Django crowdfunding platform, a TCP chat, a CPU scheduling simulator and the front end of an app store.',
   heroNote: '',
   items: [
-    { kicker: 'ITI Full Stack Python · final project', h: 'Crowdfunding Platform', paras: ['Sign-up with email activation, projects with images and tags, donations with progress tracking, ratings, threaded comments and tag-based suggestions.'], chips: ['Django 5', 'PostgreSQL', 'Bootstrap 5'], href: 'https://github.com/AymanOHM/croudfund', note: '' },
-    { kicker: 'Networking', h: 'TCP Chat Application', paras: ['A client/server chat where the server runs each client on its own thread.'], chips: ['Python', 'sockets', 'threads'], href: 'https://github.com/AymanOHM/chat_app', note: '' },
+    { kicker: 'ITI Full Stack Python · final project', h: 'Crowdfunding Platform', paras: ['Sign-up with email activation, projects with images and tags, donations with progress tracking, ratings, threaded comments and tag-based suggestions.'], chips: ['Django 5', 'PostgreSQL', 'Bootstrap 5'], href: 'https://github.com/AymanOHM/croudfund', note: 'cancel only while\nunder 25 percent funded' },
+    { kicker: 'Networking', h: 'TCP Chat Application', paras: ['A client/server chat where the server runs each client on its own thread.'], chips: ['Python', 'sockets', 'threads'], href: 'https://github.com/AymanOHM/chat_app', note: 'local network only' },
     { kicker: 'Operating systems', h: 'CPU Scheduling Simulator', paras: ['First-Come-First-Served and Round-Robin schedulers over generated workloads, with statistics and charts.'], chips: ['Python', 'Matplotlib'], href: 'https://github.com/AymanOHM/Process-scheduling-simulation', note: '' },
     { kicker: 'Team of 5', h: 'App Store Web App', paras: ['I built the front end in HTML, CSS and JavaScript. Teammates built the Flask backend and the SQL Server procedures.'], chips: ['HTML', 'CSS', 'JavaScript'], href: 'https://github.com/AymanOHM/app_store', note: '' },
   ],
